@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SignUP</title>
+
+  <link rel="stylesheet" href="/stylesheets/signup.css">
+
+</head>
+
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="card_title">
+        <h1>Create Account</h1>
+        <span>Already have an account? <a href="login">Sign In</a></span>
+      </div>
+      <div class="form">
+        <form action="/register" method="post" onsubmit="return validateForm()">
+          <input type="text" name="name" id="name" placeholder="First Name" />
+          <span id="nameMessage" class="text-danger"></span>
+
+          <input type="email" name="email" placeholder="Email" id="email" />
+          <span id="emailMessage" class="text-danger"></span>
+          <input type="tel" name="mobile" placeholder="Phone" id="mobile" />
+          <span id="mobileMessage" class="text-danger"></span>
+          <input type="password" name="password" placeholder="Password" id="password" />
+          <span id="passwordMessage" class="text-danger"></span>
+          <button type="submit">Sign Up</button>
+        </form>
+      </div>
+      <% if (typeof message !=='undefined' ){ %>
+        <p style="color: green;">
+          <%= message %>
+        </p>
+        <% } %>
+    </div>
+  </div>
+  <script>
+    function validateForm() {
+
+      let verify=true
+      // Get all input fields
+      const nameInput = document.getElementById('name');
+      const emailInput = document.getElementById('email');
+      const mobileInput = document.getElementById('mobile');
+      const passwordInput = document.getElementById('password');
+
+      // Get all validation messages
+      const nameMessage = document.getElementById('nameMessage');
+      const emailMessage = document.getElementById('emailMessage');
+      const mobileMessage = document.getElementById('mobileMessage');
+      const passwordMessage = document.getElementById('passwordMessage');
+
+      // Clear all validation messages
+      nameMessage.textContent = '';
+      emailMessage.textContent = '';
+      mobileMessage.textContent = '';
+      passwordMessage.textContent = '';
+
+      // Validate the first name field
+      if (nameInput.value.trim() === '') {
+        nameMessage.textContent = 'Please enter your first name.';
+        verify=false
+      } else if (/^\d+$/.test(nameInput.value.trim())) {
+        nameMessage.textContent = 'Please enter a valid first name without numbers.';
+        verify=false
+      } else {
+        // The input is not empty and doesn't contain numbers, clear any previous error message.
+        nameMessage.textContent = '';
+      }
+
+
+
+
+      // Validate the email field
+      if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(emailInput.value)) {
+        emailMessage.textContent = ' enter a valid email address.';
+      }
+
+      // Validate the mobile field
+      if (!/^\d{10}$/.test(mobileInput.value)) {
+        mobileMessage.textContent = 'Enter a valid 10-digit number.';
+        verify=false
+      }
+
+      let flag = 0
+      console.log(mobileInput.value[0])
+      for(let i=0;i<10;i++){
+        if(mobileInput.value[0]===mobileInput.value[i]){
+          flag = 0
+        } else {
+          flag = 1
+        }
+      }
+
+      if(flag===0){
+        mobileMessage.textContent = "Invalid mobile number "
+        return false
+        verify=false
+      } else { 
+        return true
+      }
+
+      // Validate the password field
+      if (passwordInput.value.length < 3) {
+        passwordMessage.textContent = 'Enter a password 3 characters.';
+      }
+
+      // If all fields are valid, return true
+      if (nameMessage.textContent === '' && emailMessage.textContent === '' && mobileMessage.textContent === '' && passwordMessage.textContent === '') {
+        return true;
+      }
+
+      // Otherwise, return false
+     return verify
+    }
+  </script>
+
+</body>
+
+</html>

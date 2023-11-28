@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<!-- Created By CodingNepal -->
+<html lang="en" dir="ltr">
+
+<head>
+   <meta charset="utf-8">
+   <title>Shopee Login</title>
+   <link rel="stylesheet" href="/stylesheets/login.css">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+</head>
+
+<body>
+   <div class="center">
+      <div class="container">
+         <form id="loginForm">
+            <div class="data">
+               <label>Email</label>
+               <input type="text" name="email" id="email" required placeholder="Enter Email">
+               <span id="emailMessage" style="color: red;"></span>
+            </div>
+            <div class="data">
+               <label>Password</label>
+               <input type="password" name="password" id="password" required placeholder="Enter Password">
+               <span id="passwordMessage" style="color: red;"></span>
+            </div>
+            <div class="btn">
+               <div class="inner"></div>
+               <button type="submit">Login</button>
+            </div>
+         </form>
+         <div class="d-flex justify-content-end"><a href="/forgot-password">Forgot Password? </a></div>
+         <div class="signup-link">
+            Not a member? <a href="/register">Signup now</a>
+         </div>
+      </div>
+   </div>
+
+   <script>
+      function validateForm() {
+         const emailInput = document.querySelector('[name="email"]');
+         const passwordInput = document.querySelector('[name="password"]');
+         const emailMessage = document.querySelector('#emailMessage');
+         const passwordMessage = document.querySelector('#passwordMessage');
+      
+         emailMessage.textContent = '';
+         passwordMessage.textContent = '';
+      
+         if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(emailInput.value)) {
+            emailMessage.textContent = 'Please enter a valid email address.';
+         }
+      
+         if (passwordInput.value.length < 3) {
+            passwordMessage.textContent = 'Please enter a password of at least 3 characters.';
+         }
+      
+         if (emailMessage.textContent !== '' || passwordMessage.textContent !== '') {
+            return false;
+         }
+      
+         return true;
+      }
+   
+      document.addEventListener('DOMContentLoaded', function () {
+         const loginForm = document.getElementById('loginForm');
+      
+         loginForm.addEventListener('submit', async function (e) {
+            e.preventDefault();
+            if (!validateForm()) {
+               // Form validation failed
+               return;
+            }
+            const email = document.querySelector('input[name="email"]').value;
+            const password = document.querySelector('input[name="password"]').value;
+            try {
+               const response = await fetch('/login', {
+                  method: 'POST',
+                  headers: {
+                     'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({ email, password }),
+               });
+      
+               if (response.ok) {
+                  // Successful login, you can redirect or perform other actions here
+                  location.href = '/home'; // Redirect to dashboard, for example
+               } else if (response.status === 500) {
+                  const data = await response.json();
+                  const errorMessage = data.message || 'An error occurred during login.';
+                  Swal.fire({
+                     icon: 'error',
+                     title: 'YOU ARE BLOCKED BY ADMINISTRATOR',
+                     text: errorMessage,
+                  });
+               } else {
+                  const data = await response.json();
+                  const errorMessage = data.message || 'An error occurred during login.';
+                  Swal.fire({
+                     icon: 'error',
+                     title: 'Login Error',
+                     text: errorMessage,
+                  });
+               }
+            } catch (error) {
+               console.error('Error:', error);
+               Swal.fire({
+                  icon: 'error',
+                  title: 'Login Error',
+                  text: 'An error occurred during login.',
+               });
+            }
+         });
+      });
+   </script>
+
+</body>
+
+</html>

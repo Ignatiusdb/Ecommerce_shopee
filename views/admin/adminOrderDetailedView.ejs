@@ -1,0 +1,854 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Orders</title>
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="">
+    <meta property="og:type" content="">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="/stylesheets/assets/imgs/theme/favicon.svg">
+    <!-- Template CSS -->
+    <link href="/stylesheets/assets/css/main.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajaxy/1.6.1/scripts/jquery.ajaxy.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"/>
+</head>
+
+<body>
+    <div class="screen-overlay"></div>
+    <!-- Page wrapper start -->
+    <div class="page-wrapper">
+
+        <!-- Sidebar wrapper start -->
+        <script>
+            $(document).ready(function () {
+                const currentPath = window.location.pathname;
+
+                $('.menu-aside a').each(function () {
+                    if ($(this).attr('href') === currentPath) {
+                        $(this).closest('li').addClass('active');
+                    }
+                });
+            });
+        </script>
+
+
+        <aside class="navbar-aside" id="offcanvas_aside">
+            <div class="aside-top">
+                <a href="index.html" class="brand-wrap">
+                    <img src="\stylesheets\assets\imgs\brands\brand-20.jpg" class="logo" alt="Evara Dashboard">
+                </a>
+                <div>
+                    <button class="btn btn-icon btn-aside-minimize"> <i
+                            class="text-muted material-icons md-menu_open"></i> </button>
+                </div>
+            </div>
+            <nav>
+                <ul class="menu-aside">
+                    
+                        <a class="menu-link" href="admin/dashboard"> <i class="icon material-icons md-home"></i>
+                            <span class="text">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="menu-item has-submenu">
+                        <a class="menu-link" href="page-products-list.ejs"> <i
+                                class="icon material-icons md-shopping_bag"></i>
+                            <span class="text">Products</span>
+                        </a>
+                        <div class="submenu">
+                            <a href="/admin/product-management">Product List</a>
+                            <!-- <a href="page-products-grid.ejs">Product grid</a>
+                            <a href="page-products-grid-2.ejs">Product grid 2</a> -->
+                            <a href="/admin/category-management">Categories</a>
+                        </div>
+                    </li>
+                    <li class="menu-item has-submenu">
+                        <a class="menu-link" href="page-orders-1.html"> <i class="icon material-icons md-shopping_cart"></i>
+                            <span class="text">Orders</span>
+                        </a>
+                        <div class="submenu">
+                            
+                            <a href="/admin/order-management">Orders </a>
+                        </div>
+                    </li>
+                    <li class="menu-item has-submenu">
+                        <a class="menu-link" href="page-orders-1.html"> <i class="icon material-icons md-stars"></i>
+                            <span class="text">Banner</span>
+                        </a>
+                        <div class="submenu">
+                            <a href="/admin/banner-management">Banner Management </a>
+                        </div>
+                    </li>
+                    <li class="menu-item has-submenu">
+                        <a class="menu-link" href="page-sellers-cards.html"> <i class="icon material-icons md-store"></i>
+                            <span class="text">Users</span>
+                        </a>
+                        <div class="submenu">
+                            <a href="/admin/users">Users list</a>
+    
+                        </div>
+                    </li>
+                    <li class="menu-item has-submenu">
+                        <a class="menu-link" href="page-sellers-cards.html"> <i class="icon material-icons md-person"></i>
+                            <span class="text">Coupons</span>
+                        </a>
+                        <div class="submenu">
+                            <a href="/admin/coupon-management">Coupon</a>
+    
+                        </div>
+                    </li>
+                   
+                    <!-- <li class="menu-item has-submenu">
+                        <a class="menu-link" href="page-form-product-1.ejs"> <i class="icon material-icons md-add_box"></i>
+                            <span class="text">Add product</span>
+                        </a>
+                        
+                        <div class="submenu">
+                            <a href="page-form-product-1.ejs">Add product 1</a>
+                            <a href="/admin/addProduct">Add product</a>
+                            <a href="page-form-product-3.ejs">Add product 3</a>
+                            <a href="page-form-product-4.ejs">Add product 4</a>
+                        </div>
+                    </li> -->
+                    <!-- <li class="menu-item has-submenu">
+                        <a class="menu-link" href="page-transactions-1.html"> <i class="icon material-icons md-monetization_on"></i>
+                            <span class="text">Transactions</span>
+                        </a>
+                        <div class="submenu">
+                            <a href="page-transactions-1.html">Transaction 1</a>
+                            <a href="page-transactions-2.html">Transaction 2</a>
+                            <a href="page-transactions-details.html">Transaction Details</a>
+                        </div>
+                    </li> -->
+                    <!-- <li class="menu-item has-submenu">
+                        <a class="menu-link" href="#"> <i class="icon material-icons md-person"></i>
+                            <span class="text">Account</span>
+                        </a>
+                        <div class="submenu">
+                            <a href="page-account-login.html">User login</a>
+                            <a href="page-account-register.html">User registration</a>
+                            <a href="page-error-404.ejs">Error 404</a>
+                        </div>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" href="page-reviews.html"> <i class="icon material-icons md-comment"></i>
+                            <span class="text">Reviews</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" href="page-brands.html"> <i class="icon material-icons md-stars"></i>
+                            <span class="text">Brands</span> </a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" disabled href="#"> <i class="icon material-icons md-pie_chart"></i>
+                            <span class="text">Statistics</span>
+                        </a>
+                    </li> -->
+                </ul>
+                <hr>
+                <ul class="menu-aside">
+                    <li class="menu-item has-submenu">
+                        <a class="menu-link" href="#"> <i class="icon material-icons md-settings"></i>
+                            <span class="text">Settings</span>
+                        </a>
+                        <div class="submenu">
+                            <a href="page-settings-1.html">Setting sample 1</a>
+                            <a href="page-settings-2.html">Setting sample 2</a>
+                        </div>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" href="page-blank.html"> <i class="icon material-icons md-local_offer"></i>
+                            <span class="text"> Starter page </span>
+                        </a>
+                    </li>
+                </ul>
+                <br>
+                <br>
+            </nav>
+        </aside>
+        <!-- Sidebar wrapper end -->
+
+        <!-- *************
+				************ Main container start *************
+			************* -->
+        <div class="main-container">
+
+            <!-- Page header starts -->
+            <main class="main-wrap">
+                <header class="main-header navbar">
+                    <div class="col-search">
+                        <form class="searchform">
+                            <div class="input-group">
+                                <!-- <input list="search_terms" type="text" class="form-control" placeholder="Search term"> -->
+                                <!-- <button class="btn btn-light bg" type="button"> <i
+                                        class="material-icons md-search"></i></button> -->
+                            </div>
+                            <!-- <datalist id="search_terms">
+                                <option value="Products">
+                                <option value="New orders">
+                                <option value="Apple iphone">
+                                <option value="Ahmed Hassan">
+                            </datalist> -->
+                        </form>
+                    </div>
+                    <div class="col-nav">
+                        <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"> <i
+                                class="material-icons md-apps"></i> </button>
+                        <ul class="nav">
+                            <!-- <li class="nav-item">
+                                <a class="nav-link btn-icon" href="#">
+                                    <i class="material-icons md-notifications animation-shake"></i>
+                                    <span class="badge rounded-pill">3</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link btn-icon darkmode" href="#"> <i
+                                        class="material-icons md-nights_stay"></i> </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="requestfullscreen nav-link btn-icon"><i
+                                        class="material-icons md-cast"></i></a>
+                            </li> -->
+                            <!-- <li class="dropdown nav-item">
+                                <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownLanguage"
+                                    aria-expanded="false"><i class="material-icons md-public"></i></a>
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownLanguage">
+                                    <a class="dropdown-item text-brand" href="#"><img src="/imgs/theme/flag-us.png"
+                                            alt="English">English</a>
+                                    <a class="dropdown-item" href="#"><img src="/imgs/theme/flag-fr.png"
+                                            alt="Français">Français</a>
+                                    <a class="dropdown-item" href="#"><img src="/imgs/theme/flag-jp.png"
+                                            alt="Français">日本語</a>
+                                    <a class="dropdown-item" href="#"><img src="/imgs/theme/flag-cn.png"
+                                            alt="Français">中国人</a>
+                                </div>
+                            </li> -->
+                            <li class="dropdown nav-item">
+                                <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount"
+                                    aria-expanded="false"> <img class="img-xs rounded-circle"
+                                        src="/stylesheets/assets/imgs/people/avatar2.jpg" alt="User"></a>
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
+                                    <!-- <a class="dropdown-item" href="#"><i
+                                            class="material-icons md-perm_identity"></i>Edit Profile</a>
+                                    <a class="dropdown-item" href="#"><i class="material-icons md-settings"></i>Account
+                                        Settings</a>
+                                    <a class="dropdown-item" href="#"><i
+                                            class="material-icons md-account_balance_wallet"></i>Wallet</a>
+                                    <a class="dropdown-item" href="#"><i
+                                            class="material-icons md-receipt"></i>Billing</a>
+                                    <a class="dropdown-item" href="#"><i class="material-icons md-help_outline"></i>Help
+                                        center</a> -->
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item text-danger" href="/admin/logout"><i
+                                            class="material-icons md-exit_to_app"></i>Logout</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </header>
+                <style>
+                    .card {
+                        box-shadow: 0 20px 27px 0 rgb(0 0 0 / 5%);
+                    }
+
+                    .card {
+                        position: relative;
+                        display: flex;
+                        flex-direction: column;
+                        min-width: 0;
+                        word-wrap: break-word;
+                        background-color: #fff;
+                        background-clip: border-box;
+                        border: 0 solid rgba(0, 0, 0, .125);
+                        border-radius: 1rem;
+                    }
+
+                    .text-reset {
+                        --bs-text-opacity: 1;
+                        color: inherit !important;
+                    }
+
+                    a {
+                        color: #5465ff;
+                        text-decoration: none;
+                    }
+                </style>
+                <!-- Page wrapper start -->
+                <div class="page-wrapper">
+
+                    <!-- Sidebar wrapper start -->
+                    <%- //include('partials/Adminnav',{dashboard:false}) %>
+                        <!-- Sidebar wrapper end -->
+
+                        <!-- *************
+                    ************ Main container start *************
+                ************* -->
+                        <div class="main-container">
+
+                            <!-- Page header starts -->
+                            <%-// include('partials/adminPageHeader',{dashboard:false,searchFormAction:'#'}) %>
+                                <!-- Page header ends -->
+                                <div
+                                    class="d-flex ms-4 me-4 justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                                    <h3 class="h3 text-primary">Order Management</h3>
+                                    <div class="btn-toolbar mb-2 mb-md-0">
+
+
+                                    </div>
+                                </div>
+
+                                <!-- Content wrapper scroll start -->
+                                <div class="content-wrapper-scroll">
+
+                                    <!-- Content wrapper start -->
+                                    <div class="content-wrapper">
+                                        <!-- Row start -->
+                                        <div class="container-fluid">
+
+                                            <div class="container">
+                                                <!-- Title -->
+                                                <div class="d-flex justify-content-between align-items-center py-3">
+                                                    <h2 class="h5 mb-0"><a href="#" class="text-muted"></a> Order #<%=
+                                                            orders.orderId %>
+                                                    </h2>
+                                                </div>
+
+                                                <!-- Main content -->
+                                                <div class="row">
+                                                    <div class="col-lg-8">
+                                                        <!-- Details -->
+                                                        <div class="card mb-4">
+                                                            <div class="card-body">
+                                                                <div class="mb-3 d-flex justify-content-between">
+                                                                    <div>
+                                                                        <span class="me-3">
+                                                                            <%= orders.orderDate %>
+                                                                        </span>
+                                                                        <span class="me-3">#<%= orders.orderId %></span>
+                                                                        <span class="me-3 ">Payment Method: -<%=
+                                                                                orders.paymentMethod %></span>
+                                                                        <% const statusColors={ "Pending" : "yellow"
+                                                                            , "Processing" : "grey" , "Shipped"
+                                                                            : "green" , "Delivered" : "blue"
+                                                                            , "Canceled" : "red" , }; %>
+                                                                            <span
+                                                                                class="badge badge shade-<%= statusColors[orders.status] %>">
+                                                                                <%= orders.status %>
+                                                                            </span>
+                                                                    </div>
+                                                                    <div class="d-flex">
+                                                                        <!-- <button class="btn btn-link p-0 me-3 d-none d-lg-block btn-icon-text"><i class="bi bi-download"></i> <span class="text">Invoice</span></button> -->
+                                                                        <div class="dropdown">
+                                                                            <button class="btn btn-link p-0 text-muted"
+                                                                                type="button" data-bs-toggle="dropdown">
+                                                                                <i
+                                                                                    class="bi bi-three-dots-vertical"></i>
+                                                                            </button>
+                                                                            <ul class="dropdown-menu dropdown-menu-end">
+                                                                                <li><a class="dropdown-item" href="#"><i
+                                                                                            class="bi bi-pencil"></i>
+                                                                                        Edit</a></li>
+                                                                                <li><a class="dropdown-item" href="#"><i
+                                                                                            class="bi bi-printer"></i>
+                                                                                        Print</a></li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <table class="table table-borderless">
+                                                                    <tbody>
+                                                                        <% orders.items.forEach((item)=>{ %>
+                                                                            <tr>
+                                                                                <td>
+                                                                                    <div class="d-flex mb-2">
+                                                                                        <div class="flex-shrink-0">
+                                                                                            <img src="/<%= item.image  %>"
+                                                                                                width="70px"
+                                                                                                height="70px">
+                                                                                        </div>
+                                                                                        <div
+                                                                                            class="flex-lg-grow-1 ms-3">
+                                                                                            <h6 class="small mb-0"><a
+                                                                                                    href="#"
+                                                                                                    class="text-reset"><span>ORIGINAL
+                                                                                                        PRICE:
+                                                                                                    </span><span>
+                                                                                                        <%= item.productPrice
+                                                                                                            %>
+                                                                                                    </span></a></h6>
+                                                                                            <span class="small"><span>Quantity
+                                                                                                    :</span><span>
+                                                                                                    <%= item.quantity %>
+                                                                                                </span></span>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td><span>Quantity :</span><span>
+                                                                                        <%= item.quantity %>
+                                                                                    </span></td>
+                                                                                <td class="text-end">INR <%= item.price
+                                                                                        %>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <% }) %>
+                                                                    </tbody>
+                                                                    <tfoot>
+                                                                        <tr>
+                                                                            <td colspan="2">Subtotal</td>
+                                                                            <td class="text-end"> INR <%=
+                                                                                    orders.billTotal %>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td colspan="2">Shipping</td>
+                                                                            <td class="text-end">0</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td colspan="2">Coupons Discount</td>
+                                                                            <td class="text-end">0</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td colspan="2">Discount (Code: NEWYEAR)
+                                                                            </td>
+                                                                            <td class="text-danger text-end">-$10.00
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr class="fw-bold">
+                                                                            <td colspan="2">TOTAL</td>
+                                                                            <td class="text-end"> INR <%=
+                                                                                    orders.billTotal %>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tfoot>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                        <!-- Payment -->
+                                                        <div class="card mb-4">
+                                                            <div class="card-body">
+                                                                <div class="row">
+                                                                    <div class="col-lg-4">
+                                                                        <h3 class="h6">Payment Method</h3>
+                                                                        <p>
+                                                                            <%= orders.paymentMethod %><br>
+                                                                                Total:INR <%= orders.billTotal %> <span
+                                                                                        class="badge bg-success rounded-pill">
+                                                                                        <%= orders.paymentStatus %>
+                                                                                    </span>
+                                                                        </p>
+                                                                    </div>
+                                                                    <div class="col-lg-4">
+                                                                        <h3 class="h6">User Details</h3>
+                                                                        <address>
+                                                                            <strong>
+                                                                                <%= userDetail.firstName %>
+                                                                                    <%= userDetail.lastName %>
+                                                                            </strong><br>
+                                                                            <%= userDetail.email %><br>
+                                                                                <%= userDetail.gender %>, <br>
+                                                                                    BLOCKED:<%= userDetail.isBlocked
+                                                                                        ? "Yes" : "No" %><br>
+                                                                                        <abbr title="Phone">P:</abbr>
+                                                                                        <%= userDetail.mobile %>
+                                                                        </address>
+                                                                    </div>
+                                                                    <div class="col-lg-4">
+                                                                        <h3 class="h6">Billing address</h3>
+                                                                        <address>
+                                                                            <strong>
+                                                                                <%= userDetail.firstName %>
+                                                                                    <%= userDetail.lastName %>
+                                                                            </strong><br>
+                                                                            <%= orders.deliveryAddress.addressType.toUpperCase()
+                                                                                %><br>
+                                                                                <%= orders.deliveryAddress.HouseNo %>,
+                                                                                    <%= orders.deliveryAddress.Street %>
+                                                                                        <%= orders.deliveryAddress.pincode
+                                                                                            %><br>
+                                                                                            <%= orders.deliveryAddress.city
+                                                                                                %>
+                                                                                                <%= orders.deliveryAddress.district
+                                                                                                    %> <br>
+                                                                                                    <%= orders.deliveryAddress.State
+                                                                                                        %>
+                                                                                                        <%= orders.deliveryAddress.Country
+                                                                                                            %>
+                                                                        </address>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <!-- Customer Notes -->
+                                                        <div class="card mb-4">
+                                                            <div class="card-header" style="font-weight: bolder;">
+                                                                General Details</div>
+                                                            <div class="card-body">
+                                                                <form id="orderStatusForm"
+                                                                    onsubmit="submitOrderStatusForm('<%= orders._id %>'); return false;">
+                                                                    <label for="orderDate"
+                                                                        style="font-weight: bolder;">Order
+                                                                        Date:</label><br>
+                                                                    <input type="text" class="mt-2 mb-2"
+                                                                        value="<%= orders.orderDate %>"
+                                                                        disabled /><br>
+
+                                                                    <label for="orderStatus mt-4"
+                                                                        style="font-weight: bolder;">Order
+                                                                        Status:</label><br>
+                                                                    <select name="orderStatus" class="form-select mt-2"
+                                                                        data-live-search="true">
+                                                                        <% switch (orders.status) { case 'Pending' : %>
+                                                                            <option value="Pending" selected>Pending
+                                                                            </option>
+                                                                            <option value="Processing">Processing
+                                                                            </option>
+                                                                            <option value="Shipped">Shipped</option>
+                                                                            <option value="Delivered">Delivered</option>
+                                                                            <option value="Canceled">Canceled</option>
+                                                                            <option value="Failed" disabled>Failed
+                                                                            </option>
+                                                                            <% break; case 'Processing' : %>
+                                                                                <option value="Pending" disabled>Pending
+                                                                                </option>
+                                                                                <option value="Processing" selected>
+                                                                                    Processing</option>
+                                                                                <option value="Shipped">Shipped</option>
+                                                                                <option value="Delivered">Delivered
+                                                                                </option>
+                                                                                <option value="Canceled">Canceled
+                                                                                </option>
+                                                                                <option value="Failed" disabled>Failed
+                                                                                </option>
+                                                                                <% break; case 'Shipped' : %>
+                                                                                    <option value="Pending" disabled>
+                                                                                        Pending</option>
+                                                                                    <option value="Processing" disabled>
+                                                                                        Processing</option>
+                                                                                    <option value="Shipped" selected>
+                                                                                        Shipped</option>
+                                                                                    <option value="Delivered">Delivered
+                                                                                    </option>
+                                                                                    <option value="Canceled">Canceled
+                                                                                    </option>
+                                                                                    <option value="Failed" disabled>
+                                                                                        Failed</option>
+                                                                                    <% break; case 'Delivered' : %>
+                                                                                        <option value="Pending"
+                                                                                            disabled>Pending</option>
+                                                                                        <option value="Processing"
+                                                                                            disabled>Processing</option>
+                                                                                        <option value="Shipped"
+                                                                                            disabled>Shipped</option>
+                                                                                        <option value="Delivered"
+                                                                                            selected>Delivered</option>
+                                                                                        <option value="Canceled"
+                                                                                            disabled>Canceled</option>
+                                                                                        <option value="Failed" disabled>
+                                                                                            Failed</option>
+                                                                                        <% break; case 'Canceled' : %>
+                                                                                            <option value="Pending"
+                                                                                                disabled>Pending
+                                                                                            </option>
+                                                                                            <option value="Processing"
+                                                                                                disabled>Processing
+                                                                                            </option>
+                                                                                            <option value="Shipped"
+                                                                                                disabled>Shipped
+                                                                                            </option>
+                                                                                            <option value="Delivered"
+                                                                                                disabled>Delivered
+                                                                                            </option>
+                                                                                            <option value="Canceled">
+                                                                                                Canceled</option>
+                                                                                            <option value="Failed"
+                                                                                                disabled>Failed</option>
+                                                                                            <% break; case 'Returned' :
+                                                                                                %>
+                                                                                                <option value="Pending"
+                                                                                                    disabled>Pending
+                                                                                                </option>
+                                                                                                <option
+                                                                                                    value="Processing"
+                                                                                                    disabled>Processing
+                                                                                                </option>
+                                                                                                <option value="Shipped"
+                                                                                                    disabled>Shipped
+                                                                                                </option>
+                                                                                                <option
+                                                                                                    value="Delivered"
+                                                                                                    disabled>Delivered
+                                                                                                </option>
+                                                                                                <option value="Canceled"
+                                                                                                    disabled>Canceled
+                                                                                                </option>
+                                                                                                <option value="Returned"
+                                                                                                    selected>Returned
+                                                                                                </option>
+                                                                                                <option value="Failed"
+                                                                                                    disabled>Failed
+                                                                                                </option>
+                                                                                                <% break; default: %>
+                                                                                                    <option
+                                                                                                        value="Pending"
+                                                                                                        disabled>Pending
+                                                                                                    </option>
+                                                                                                    <option
+                                                                                                        value="Processing"
+                                                                                                        disabled>
+                                                                                                        Processing
+                                                                                                    </option>
+                                                                                                    <option
+                                                                                                        value="Shipped"
+                                                                                                        disabled>Shipped
+                                                                                                    </option>
+                                                                                                    <option
+                                                                                                        value="Delivered"
+                                                                                                        disabled>
+                                                                                                        Delivered
+                                                                                                    </option>
+                                                                                                    <option
+                                                                                                        value="Canceled"
+                                                                                                        disabled>
+                                                                                                        Canceled
+                                                                                                    </option>
+                                                                                                    <option
+                                                                                                        value="Failed">
+                                                                                                        Failed</option>
+                                                                                                    <% } %>
+                                                                    </select><br>
+                                                                    <button type="submit" class="btn btn-primary">Save
+                                                                        Order</button>
+                                                                </form>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="card mb-4">
+                                                            <!-- Shipping information -->
+                                                            <div class="card-body">
+                                                                <h5 class="h6" style="float: left;">USER REQUESTS</h5>
+                                                                <% if (orders.requests && orders.requests.length> 0) {
+                                                                    %>
+                                                                    <% orders.requests.forEach(request=> { %>
+                                                                        <% if (request.type==='Cancel' &&
+                                                                            request.status==='Pending' ) { %>
+                                                                            <span class="badge shade-yellow">Cancel
+                                                                                Request</span>
+                                                                            <% } else if (request.type==='Return' &&
+                                                                                request.status==='Pending' ) { %>
+                                                                                <span class="badge shade-red">Return
+                                                                                    Request</span>
+                                                                                <% } %>
+                                                                                    <% }) %>
+                                                                                        <% } %>
+                                                                                            <div class="card mb-4 mt-4">
+                                                                                                <% if
+                                                                                                    (orders.status=='Canceled'
+                                                                                                    &&
+                                                                                                    orders.requests[0].status==='Pending'
+                                                                                                    ) { %>
+                                                                                                    <strong
+                                                                                                        class="text-danger mb-3 text-center">Order
+                                                                                                        Canceled</strong>
+                                                                                                    <input type="text"
+                                                                                                        value="<%= orders.requests[0].reason  %>"
+                                                                                                        readonly
+                                                                                                        class="mb-3 text-center">
+                                                                                                    <button
+                                                                                                        class="btn btn-primary"
+                                                                                                        onclick="refundAmount('<%= orders._id %>','<%= orders.user._id %>')">Refund
+                                                                                                        Amount</button>
+                                                                                                    <% } else if
+                                                                                                        (orders.status=='Returned'
+                                                                                                        &&
+                                                                                                        orders.requests[0].status==='Pending'
+                                                                                                        ) { %>
+                                                                                                        <strong
+                                                                                                            class="text-danger mb-3 text-center">Order
+                                                                                                            Returned
+                                                                                                            <span
+                                                                                                                style="font-size: 14px; color: black;">(Reason)</span></strong>
+                                                                                                        <input
+                                                                                                            type="text"
+                                                                                                            value="<%= orders.requests[0].reason  %>"
+                                                                                                            readonly
+                                                                                                            class="mb-3 text-center">
+                                                                                                        <button
+                                                                                                            class="btn btn-success w-50 mb-3 text-center ms-5"
+                                                                                                            onclick="refundAmount('<%= orders._id %>','<%=  orders.user._id %>')">Accept
+                                                                                                            Return &
+                                                                                                            Refund
+                                                                                                            Amount</button>
+                                                                                                        <% } else if
+                                                                                                            (orders.requests
+                                                                                                            &&
+                                                                                                            orders.requests.length>
+                                                                                                            0) { %>
+                                                                                                            <!-- Display other request details as needed -->
+                                                                                                            <%
+                                                                                                                orders.requests.forEach(request=>
+                                                                                                                { %>
+                                                                                                                <!-- Example: Displaying FedEx tracking details -->
+                                                                                                                <% if
+                                                                                                                    (request.type=='Return'
+                                                                                                                    ) {
+                                                                                                                    %>
+                                                                                                                    <strong>FedEx</strong>
+                                                                                                                    <span><a href="#"
+                                                                                                                            class="text-decoration-underline"
+                                                                                                                            target="_blank">FF1234567890</a>
+                                                                                                                        <i
+                                                                                                                            class="bi bi-box-arrow-up-right"></i></span>
+                                                                                                                    <% }
+                                                                                                                        %>
+                                                                                                                        <% })
+                                                                                                                            %>
+                                                                                                                            <% } else
+                                                                                                                                {
+                                                                                                                                %>
+                                                                                                                                <p
+                                                                                                                                    class="h6 text-center">
+                                                                                                                                    No
+                                                                                                                                    requests
+                                                                                                                                    available.
+                                                                                                                                </p>
+                                                                                                                                <% }
+                                                                                                                                    %>
+
+
+
+                                                                                            </div>
+                                                                                            <hr>
+
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <script>
+
+                                        function submitOrderStatusForm(orderId) {
+                                            const newStatus = document.querySelector('select[name="orderStatus"]').value;
+
+                                            // Make the fetch request
+                                            fetch(`/admin/order-management/update-order-status/${orderId}`, {
+                                                method: 'POST',
+                                                headers: {
+                                                    'Content-Type': 'application/json',
+                                                },
+                                                body: JSON.stringify({ orderStatus: newStatus }),
+                                            })
+                                                .then((response) => response.json())
+                                                .then((data) => {
+                                                    if (data.success) {
+                                                        // Handle success
+                                                        Swal.fire({
+                                                            icon: 'success',
+                                                            title: 'Order Status Updated',
+                                                            text: 'The order status has been updated successfully.',
+                                                        });
+
+                                                    } else {
+                                                        // Handle error
+                                                        Swal.fire({
+                                                            icon: 'error',
+                                                            title: 'Error Updating Order Status',
+                                                            text: data.message || 'An error occurred while updating the order status.',
+                                                        });
+                                                    }
+                                                })
+                                                .catch((error) => {
+                                                    // Handle fetch error
+                                                    Swal.fire({
+                                                        icon: 'error',
+                                                        title: 'Fetch Error',
+                                                        text: 'An error occurred while making the request.',
+                                                    });
+                                                });
+                                        }
+                                        function refundAmount(orderId, userId) {
+                                            // Prepare the data to be sent
+                                            const requestData = {
+                                                orderId: orderId,
+                                                userId: userId,
+                                            };
+
+                                            // Make a POST request to the backend endpoint
+                                            fetch('/admin/refund-amount', {
+                                                method: 'POST',
+                                                headers: {
+                                                    'Content-Type': 'application/json',
+                                                },
+                                                body: JSON.stringify(requestData),
+                                            })
+                                                .then(response => {
+                                                    if (!response.ok) {
+                                                        throw new Error('Network response was not ok');
+                                                    }
+                                                    return response.json();
+                                                })
+                                                .then(data => {
+                                                    // Handle successful response
+                                                    console.log(data);  // You can replace this with your desired logic
+
+                                                    Swal.fire({
+                                                        icon: 'success',
+                                                        title: 'Amount refunded to user successfully',
+                                                        text: 'The order status has been updated successfully.',
+                                                    })
+                                                    // Show a success message using SweetAlert
+                                                    setTimeout(() => {
+                                                        window.location.reload()
+                                                    }, 1000)
+                                                })
+                                                .catch(error => {
+                                                    // Handle errors
+                                                    console.error('Error:', error);
+
+                                                    Swal.fire({
+                                                        icon: 'Error!',
+                                                        title: 'Failed to refund amount',
+                                                        text: error,
+                                                    });
+
+                                                })// Show an error message using SweetAlert
+                                        }
+
+                                    </script>
+
+
+            </main>
+            <script src="/stylesheets/assets/js/vendors/jquery-3.6.0.min.js"></script>
+            <script src="/stylesheets/assets/js/vendors/bootstrap.bundle.min.js"></script>
+            <script src="/stylesheets/assets/js/vendors/select2.min.js"></script>
+            <script src="/stylesheets/assets/js/vendors/perfect-scrollbar.js"></script>
+            <script src="/stylesheets/assets/js/vendors/jquery.fullscreen.min.js"></script>
+            <script src="/stylesheets/assets/js/vendors/chart.js"></script>
+            <!-- Main Script -->
+            <script src="/stylesheets/assets/js/main.js" type="text/javascript"></script>
+            <script src="/stylesheets/assets/js/custom-chart.js" type="text/javascript"></script>
+
+
+</body>
+
+</html>

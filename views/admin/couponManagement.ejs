@@ -1,0 +1,819 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Coupon Management</title>
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="">
+    <meta property="og:type" content="">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="/stylesheets/assets/imgs/theme/favicon.svg">
+    <!-- Template CSS -->
+    <link href="/stylesheets/assets/css/main.css" rel="stylesheet" type="text/css" />
+    <link href="/stylesheets/banner/bannerStyle.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajaxy/1.6.1/scripts/jquery.ajaxy.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"
+        integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajaxy/1.6.1/scripts/jquery.ajaxy.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.19.0/font/bootstrap-icons.css" rel="stylesheet">
+
+
+    
+
+
+    <style>
+        /* Custom CSS for the centered and smaller modal */
+       .btn-edit{
+           display: flex;
+       }
+        .actives {
+           display: inline-block;
+           padding: 2px 5px;
+           background-color: green;
+           color: white;
+           border-radius: 3px;
+       }
+    
+       /* Styles for Inactive */
+       .inactive {
+           display: inline-block;
+           padding: 2px 5px;
+           background-color: red;
+           color: white;
+           border-radius: 3px;
+       }
+        .receipt-modal {
+           text-align: center;
+       }
+       
+       .receipt {
+           text-align: left;
+           padding: 20px;
+           border: 1px solid #ccc;
+           border-radius: 5px;
+       }
+       #generateCodeContainer {
+           display: inline-block;
+           cursor: pointer; /* Make it appear clickable */
+           text-decoration: underline; /* Make the text look like a link */
+           font-weight: normal; /* Remove button's bold text style */
+           background: none; /* Remove background color */
+           border: none; /* Remove border */
+           padding: 0; /* Remove padding */
+           margin: 0; /* Remove margin */
+       }
+       .custom-toast {
+           position: fixed;
+           top: 0;
+           right: 0;
+           z-index: 1000; /* Adjust the z-index to your needs */
+           display: none;
+       }
+       
+       .toast-content {
+           background-color: #f44336; /* Customize the background color */
+           color: #fff; /* Customize the text color */
+           border-radius: 6px;
+           box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+           margin: 10px;
+           max-width: 300px;
+       }
+       
+       .toast-header {
+           padding: 10px;
+           display: flex;
+           justify-content: space-between;
+       }
+       
+       .toast-title {
+           font-weight: bold;
+       }
+       
+       .toast-close {
+           background: none;
+           border: none;
+           color: inherit;
+           cursor: pointer;
+           font-size: 16px;
+       }
+       
+       .toast-body {
+           padding: 10px;
+       }
+       #notification-bar {
+           display: none;
+           position: fixed;
+           z-index: 999;
+           top: 10px;
+           left: 50%;
+           transform: translateX(-50%);
+           width: 300px;
+           height: 60px;
+           display: flex;
+           justify-content: center; /* Center the content horizontally */
+           align-items: center; /* Center the content vertically */
+           background-color: #F4E0E1;
+           color: #A42732;
+           border-radius: 4px;
+           box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+           transition: transform 0.3s ease;
+         }
+         
+         #notification-bar.visible {
+           display: block;
+           transform: translateX(-50%) translateY(20px);
+           transition: transform 0.3s ease;
+         }
+         
+         #notification-icon {
+           width: 30px; /* Adjust the size of the icon */
+           height: 30px; /* Adjust the size of the icon */
+           margin-right: 10px;
+         }
+         
+         
+         /* Styles for success message */
+         .success-message {
+           background-color: #A9DFBF;
+           color: #196F3D;
+         }
+         
+         /* Styles for error message */
+         .error-message {
+           background-color: #F4E0E1;
+           color: #A42732;
+         }
+         
+         .message-box {
+           position: fixed;
+           top: 4%;
+           left: 50%;
+           transform: translateX(-50%);
+           background-color: #333;
+           color: #fff;
+           text-align: center;
+           padding: 10px;
+           border-radius: 5px;
+           display: none;
+       }
+    
+       /* CSS for success and error classes */
+       .success {
+           background-color: #4CAF50;
+       }
+    
+       .error {
+           background-color: #f44336;
+       }
+    
+       /* CSS for the icon */
+       .message-icon {
+           display: inline-block;
+           margin-right: 5px;
+       }
+         
+       
+    </style>
+</head>
+
+
+<body>
+    <div class="screen-overlay"></div>
+    <aside class="navbar-aside" id="offcanvas_aside">
+        <div class="aside-top">
+            <a href="admin/dashboard" class="brand-wrap">
+                <img src="\stylesheets\assets\imgs\brands\brand-20.jpg" class="logo" alt="Evara Dashboard">
+            </a>
+            <div>
+                <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i>
+                </button>
+            </div>
+        </div>
+        <nav>
+            <ul class="menu-aside">
+                <li class="menu-item">
+                    <a class="menu-link" href="admin/dashboard">
+                        <i class="icon material-icons md-home"></i>
+                        <span class="text">Dashboard</span>
+                    </a>
+                </li>
+                <li class="menu-item has-submenu">
+                    <a class="menu-link" href="/admin/product-management">
+                        <i class="icon material-icons md-shopping_bag"></i>
+                        <span class="text">Products</span>
+                    </a>
+                    <div class="submenu">
+                        <a href="/admin/product-management">Product List</a>
+                        <a href="/admin/category-management">Categories</a>
+                    </div>
+                </li>
+                <li class="menu-item has-submenu">
+                    <a class="menu-link" href="/admin/order-management">
+                        <i class="icon material-icons md-shopping_cart"></i>
+                        <span class="text">Orders</span>
+                    </a>
+                    <div class="submenu">
+                        <a href="/admin/order-management">Orders </a>
+                    </div>
+                </li>
+                <li class="menu-item has-submenu">
+                    <a class="menu-link" href="/admin/banner-management">
+                        <i class="icon material-icons md-stars"></i>
+                        <span class="text">Banner</span>
+                    </a>
+                    <div class="submenu">
+                        <a href="/admin/banner-management">Banner Management </a>
+                    </div>
+                </li>
+                <li class="menu-item has-submenu">
+                    <a class="menu-link" href="/admin/users">
+                        <i class="icon material-icons md-store"></i>
+                        <span class="text">Users</span>
+                    </a>
+                    <div class="submenu">
+                        <a href="/admin/users">Users list</a>
+                    </div>
+                </li>
+                <li class="menu-item has-submenu">
+                    <a class="menu-link" href="/admin/coupon-management">
+                        <i class="icon material-icons md-person"></i>
+                        <span class="text">Coupons</span>
+                    </a>
+                    <div class="submenu">
+                        <a href="/admin/coupon-management">Coupon</a>
+                    </div>
+                </li>
+            </ul>
+            <hr>
+            <ul class="menu-aside">
+                <li class="menu-item has-submenu">
+                    <a class="menu-link" href="#">
+                        <i class="icon material-icons md-settings"></i>
+                        <span class="text">Settings</span>
+                    </a>
+                    <div class="submenu">
+                        <a href="page-settings-1.html">Setting sample 1</a>
+                        <a href="page-settings-2.html">Setting sample 2</a>
+                    </div>
+                </li>
+                <li class="menu-item">
+                    <a class="menu-link" href="page-blank.html">
+                        <i class="icon material-icons md-local_offer"></i>
+                        <span class="text"> Starter page </span>
+                    </a>
+                </li>
+            </ul>
+            <br>
+            <br>
+        </nav>
+        
+    </aside>
+    <main class="main-wrap">
+        <header class="main-header navbar">
+            
+            <div class="col-search">
+                <form class="searchform">
+                    <!-- <div class="input-group">
+                        <input list="search_terms" type="text" class="form-control" placeholder="Search term">
+                        <button class="btn btn-light bg" type="button"> <i
+                                class="material-icons md-search"></i></button>
+                    </div>
+                    <datalist id="search_terms">
+                        <option value="Products">
+                        <option value="New orders">
+                        <option value="Apple iphone">
+                        <option value="Ahmed Hassan">
+                    </datalist> -->
+                </form>
+            </div>
+            <div class="col-nav">
+                
+                <!-- <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"> <i
+                        class="material-icons md-apps"></i> </button>
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link btn-icon" href="#">
+                            <i class="material-icons md-notifications animation-shake"></i>
+                            <span class="badge rounded-pill">3</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn-icon darkmode" href="#"> <i class="material-icons md-nights_stay"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="requestfullscreen nav-link btn-icon"><i
+                                class="material-icons md-cast"></i></a>
+                    </li>
+                    <li class="dropdown nav-item">
+                        <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownLanguage"
+                            aria-expanded="false"><i class="material-icons md-public"></i></a>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownLanguage">
+                            <a class="dropdown-item text-brand" href="#"><img src="assets/imgs/theme/flag-us.png"
+                                    alt="English">English</a>
+                            <a class="dropdown-item" href="#"><img src="/stylesheets/assets/imgs/theme/flag-fr.png"
+                                    alt="Français">Français</a>
+                            <a class="dropdown-item" href="#"><img src="/stylesheets/assets/imgs/theme/flag-jp.png"
+                                    alt="Français">日本語</a>
+                            <a class="dropdown-item" href="#"><img src="/stylesheets/assets/imgs/theme/flag-cn.png"
+                                    alt="Français">中国人</a>
+                        </div>
+                    </li> -->
+                    <li class="dropdown nav-item">
+                        <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount"
+                            aria-expanded="false"> <img class="img-xs rounded-circle"
+                                src="/stylesheets/assets/imgs/people/avatar2.jpg" alt="User"></a>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
+                            <!-- <a class="dropdown-item" href="#"><i class="material-icons md-perm_identity"></i>Edit
+                                Profile</a>
+                            <a class="dropdown-item" href="#"><i class="material-icons md-settings"></i>Account
+                                Settings</a>
+                            <a class="dropdown-item" href="#"><i
+                                    class="material-icons md-account_balance_wallet"></i>Wallet</a>
+                            <a class="dropdown-item" href="#"><i class="material-icons md-receipt"></i>Billing</a>
+                            <a class="dropdown-item" href="#"><i class="material-icons md-help_outline"></i>Help
+                                center</a> -->
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-danger" href="/admin/logout"><i
+                                    class="material-icons md-exit_to_app"></i>Logout</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </header>
+
+<div class="page-wrapper">
+
+
+
+
+
+
+<div class="main-container">
+
+    <!-- //popups -->
+    <div id="alertContainer" class="position-fixed top-0 end-0 p-3" style="z-index: 5"></div>
+
+    <!-- <div id="notification-bar" class="hidden">
+        <div class="notification-message">
+          <div id="notification-icon"></div>
+          <div id="notification-text"></div>
+        </div>
+      </div>
+      
+       -->
+       <div class="message-box" id="messageBox"></div>
+       
+   
+    
+    <div class="row m-3">
+        <h3 class="h3 text-primary">Coupon Management</h3>
+        <div class="row d-flex justify-content-end mb-4">
+    <button type="button" class="btn btn-primary create-coupon-btn w-25" data-toggle="modal" data-target="#createCouponModal">
+        Create Coupon
+    </button>
+          </div>
+          
+    <table class="table table-bordered table-definition mb-5">
+        <thead class="table-warning ">
+            <tr>
+                <th>S.No</th>
+                <th>Coupon Name</th>
+                <th>Description</th>
+                <th>Discount Percentage</th>
+               <th>Maximum DiscountAmount</th>
+                <th>Minimum Amount</th>
+                
+                <th>Status</th>
+                <th>View </th>
+                <th col-2>Actions</th>
+              
+            </tr>
+        </thead>
+        <tbody>
+            <% if(coupons && coupons.length>0){ %>
+                <% coupons.forEach((item,i)=>{%>
+            <tr>
+                <td class="text-center mt-2"><%= i+1  %></td>
+                <td class="text-center mt-2">
+               <%= item.code  %>
+                </td>
+                <td class="text-center mt-2"><%= item.description  %></td>
+                <td class="text-center mt-2"><%= item.discountPercentage  %> %</td>
+                <td class="text-center mt-2"><%= item.maxDiscountAmount  %> </td>
+                <td class="text-center mt-2"><%= item.minimumAmount  %></td>
+                
+               
+              
+                <td class="text-center "><span class="<%= item.isActive ? 'actives' : 'inactive' %> mt-3">
+                    <%= item.isActive ? 'Active' : 'Inactive' %>
+                </span></td>
+                <td class="text-center mt-2">
+                    <button class="btn btn-outline-dark" data-toggle="modal" data-target="#couponDetailsModal<%= i %>">View
+                        <i class=""></i> 
+                    </button>
+                    
+                    
+                </td>
+                <td class="text-center mt-2">
+                    <% if (item.isActive) { %>
+                        <button class="btn btn-sm btn-success" onclick="toggleActivation('<%= item._id %>', false)" data-toggle="tooltip" title="Deactivate">
+                            <i class="fas fa-toggle-on"></i>
+                        </button>
+                    <% } else { %>
+                        <button class="btn btn-sm btn-danger" onclick="toggleActivation('<%= item._id %>', true)" data-toggle="tooltip" title="Activate">
+                            <i class="fas fa-toggle-off"></i>
+                        </button>
+                    <% } %>
+                    <button class="btn btn-outline-info mt-1" data-toggle="modal" data-target="#editCouponModal<%= item._id %>" data-toggle="tooltip" title="Edit" onclick="populateEditModal('<%= item._id %>');"> Edit
+                        <i class="bi bi-pencil"></i>
+                    </button>
+                </td>
+
+                    
+                 
+                    
+                
+                                <!-- Edit Modal -->
+                                <div class="modal fade" id="editCouponModal<%= item._id %>" tabindex="-1" role="dialog" aria-labelledby="editCouponModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="createCouponModalLabel">Edit Coupon</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <!-- Coupon Creation Form -->
+                                                <form id="createCouponForm_<%= item._id  %>" action="/admin/EditCoupon/<%= item._id  %>" method="post">
+                                                    <div class="form-row d-flex mb-3">
+                                                        <div class="form-group col-md-6">
+                                                            <label for="code" class="text-right">Coupon Code</label>
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            
+                                                            <input type="text" value="<%= item.code %>" class="form-control" id="code_<%= item._id %>" name="code" required>
+                                                            <span id="codeError_<%= item._id %>" class="error-message text-danger"></span>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    
+                                                    <div class="form-row d-flex mb-3">
+                                                        <div class="form-group col-md-6">
+                                                            <label for="description_<%= item._id %>" class="text-right">Description</label>
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <textarea class="form-control" value="<%= item.description %>" id="description_<%= item._id %>" name="description" required></textarea>
+                                                            <span id="descriptionError_<%= item._id %>" class="error-message text-danger"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-row d-flex mb-3">
+                                                        <div class="form-group col-md-6">
+                                                            <label for="maxDiscountAmount_<%= item._id %>" class="text-right">Maximum Discount Amount</label>
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <input type="Number" value="<%= item.maxDiscountAmount %>" class="form-control" id="maxDiscountAmount_<%= item._id %>" name="maxDiscountAmount" required>
+                                                            <span id="maxDiscountAmountError_<%= item._id %>" class="error-message text-danger"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-row d-flex mb-3">
+                                                        <div class="form-group col-md-6">
+                                                            <label for="discountAmount_<%= item._id %>" class="text-right">Discount Percentage</label>
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <input type="text" value="<%= item.discountPercentage %>" class="form-control" id="discountAmount_<%= item._id %>" name="discountPercentage">
+                                                            <span id="discountAmountError_<%= item._id %>" class="error-message text-danger"></span>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                  
+                                                    <div class="form-row d-flex mb-3">
+                                                        <div class="form-group col-md-6">
+                                                            <label for="minimumAmount_<%= item._id %>" class="text-right">Minimum Amount</label>
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <input type="number" value="<%= item.minimumAmount %>" class="form-control" id="minimumAmount_<%= item._id %>" name="minimumAmount" required>
+                                                            <span id="minimumAmountError_<%= item._id %>" class="error-message text-danger"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-row d-flex mb-3">
+                                                        <div class="form-group col-md-6">
+                                                            <label for="maximumAmount<%= item._id %>" class="text-right">Maximum Amount</label>
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <input type="number" value="<%= item.maximumAmount %>" class="form-control" id="maximumAmount_<%= item._id %>" name="maximumAmount" required>
+                                                            <span id="maximumAmountError_<%= item._id %>" class="error-message text-danger"></span>
+                                                        </div>
+                                                    </div>
+                                                
+                                                    <div class="form-row d-flex mb-3">
+                                                        <div class="form-group col-md-6">
+                                                            <label for="expirationDate_<%= item._id %>" class="text-right">Expiration Date</label>
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <input type="date" value="<%= item.expirationDate %>" class="form-control" id="expirationDate_<%= item._id %>" name="expirationDate" required>
+                                                            <span id="expirationDateError_<%= item._id %>" class="error-message text-danger"></span>
+                                                        </div>
+                                                    </div>
+                                
+                                                    <div class="form-row d-flex mb-3">
+                                                        <div class="form-group col-md-6">
+                                                            <label for="maxUsers_<%= item._id %>" class="text-right">Maximum Users Allowed</label>
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <input type="number" value="<%= item.maxUsers %>" class="form-control" id="maxUsers_<%= item._id %>" name="maxUsers">
+                                                            <span id="maxUsersError_<%= item._id %>" class="error-message text-danger"></span>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-primary btn-edit" onclick="populateEditModal('<%= item._id %>');" id="createCouponSubmit_<%= item._id %>">Edit</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                </td>
+                
+            </tr>
+            <% })  %>
+        <% } %>
+            
+        </tbody>
+   
+    </table>
+   
+</div>
+<div class="row " style="position: fixed; margin-left: 30px;">
+    <!-- PAGINATION -->
+    <nav aria-label="..." class="d-flex justify-content-end">
+      <ul class="pagination ml-auto " id="pagination">
+          <% if(currentPage>1){ %>
+        <li class="page-item" id="previousPage">
+         <a href ="/admin/coupon-management?page=<%= currentPage-1 %>"> <span class="page-link" >Previous</span></a>
+        </li>
+        <% } %>
+        <% for (let i = 1; i <= totalPages; i++) { %>
+          <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+            <a class="page-link" href="/admin/coupon-management?page=<%= i %>"><%= i %></a>
+          </li>
+        <% } %>
+        <!-- Pagination links will be added dynamically here -->
+      <% if(currentPage<totalPages){  %>
+        <li class="page-item" id="nextPage">
+          <a class="page-link" href="/admin/coupon-management?page=<%= currentPage+1 %>">Next</a>
+        </li>
+        <% } %>
+      </ul>
+    </nav> 
+       
+  <!-- PAGINATION Ends-->
+</div>   
+</div>
+</div>
+
+
+
+
+
+
+<!-- MODAL DETAILED VIEW  -->
+<% coupons.forEach((item, i) => { %>
+    <!-- Modal for Coupon Details -->
+    
+<div class="modal fade" id="couponDetailsModal<%= i %>" tabindex="-1" role="dialog" aria-labelledby="couponDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered receipt-modal" role="document"> <!-- Center the modal -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="couponDetailsModalLabel">Coupon Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Receipt-style formatting -->
+                <div class="receipt">
+                    <table class="table mx-auto table-bordered pt-4">
+                        <tr class="mb-3">
+                            <td class="text-center"><strong>Coupon Code:</strong></td>
+                            <td class="text-center"><%= item.code %></td>
+                        </tr>
+                        <tr class="pt-3">
+                            <td class="text-center"><strong>Description:</strong></td>
+                            <td class="text-center"><%= item.description %></td>
+                        </tr>
+                        <tr class="mb-3">
+                            <td class="text-center"><strong>Minimum Amount:</strong></td>
+                            <td class="text-center"><%= item.minimumAmount %></td>
+                        </tr>
+                        <tr class="mb-3">
+                            <td class="text-center"><strong>Maximum Amount:</strong></td>
+                            <td class="text-center"><%= item.maximumAmount %></td>
+                        </tr>
+                        <tr class="mb-3">
+                            <td class="text-center"><strong>Maximum Discount Amount:</strong></td>
+                            <td class="text-center"><%= item.maxDiscountAmount %></td>
+                        </tr>
+                        <tr class="mb-3">
+                            <td class="text-center"><strong>Discount Percentage:</strong></td>
+                            <td class="text-center"><%= item.discountPercentage %> %</td>
+                        </tr>
+                        <tr class="mb-3">
+                            <td class="text-center"><strong>Expiry Date :</strong></td>
+                            <td class="text-center"><%= item.expirationDate %></td>
+                        </tr>
+                        <tr class="mb-3">
+                            <td class="text-center"><strong>IS Active:</strong></td>
+                            <td class="text-center">
+                                <span class="<%= item.isActive ? 'actives' : 'inactive' %>">
+                                    <%= item.isActive ? 'Active' : 'Inactive' %>
+                                </span>
+                            </td>
+                        </tr>
+                    </table>
+                    
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+    
+<% }) %>
+
+
+<!-- Create Coupon Modal -->
+<!-- Create Coupon Modal -->
+<div class="modal fade" id="createCouponModal" tabindex="-1" role="dialog" aria-labelledby="createCouponModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createCouponModalLabel">Create Coupon</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Coupon Creation Form -->
+                <form id="createCouponForm" action="/admin/createCoupon" method="post">
+                    <div class="form-row d-flex mb-3">
+                        <div class="form-group col-md-6">
+                            <label for="code" class="text-right">Coupon Code</label>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <span id="generateCodeContainer">
+                                <button id="generateCode" type="button">Generate Code</button>
+                            </span>
+                            <input type="text" class="form-control" id="code" name="code" required>
+                            <span id="codeError" class="error-message text-danger"></span>
+                        </div>
+                        
+                    </div>
+                    
+                    <div class="form-row d-flex mb-3">
+                        <div class="form-group col-md-6">
+                            <label for="description" class="text-right">Description</label>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <textarea class="form-control" id="description" name="description" required></textarea>
+                            <span id="descriptionError" class="error-message text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-row d-flex mb-3">
+                        <div class="form-group col-md-6">
+                            <label for="discountAmount" class="text-right">Discount Percentage</label>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <input type="text" class="form-control" id="discountAmount" name="discountPercentage">
+                            <span id="discountAmountError" class="error-message text-danger"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row d-flex mb-3">
+                        <div class="form-group col-md-6">
+                            <label for="maxDiscountAmount" class="text-right"> Maximum Discount Amount</label>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <input type="Number" class="form-control" id="maxDiscountAmount" name="maxDiscountAmount" required>
+                            <span id="maxDiscountAmountError" class="error-message text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-row d-flex mb-3">
+                        <div class="form-group col-md-6">
+                            <label for="minimumAmount" class="text-right">Minimum Amount</label>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <input type="number" class="form-control" id="minimumAmount" name="minimumAmount" required>
+                            <span id="minimumAmountError" class="error-message text-danger"></span>
+                        </div>
+                    </div>
+                    
+                   
+                    
+                    <div class="form-row d-flex mb-3">
+                        <div class="form-group col-md-6">
+                            <label for="expirationDate" class="text-right">Expiration Date</label>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <input type="date" class="form-control" id="expirationDate" name="expirationDate" required>
+                            <span id="expirationDateError" class="error-message text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-row d-flex mb-3">
+                        <div class="form-group col-md-6">
+                            <label for="maxUsers" class="text-right">Maximum Users Allowed</label>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <input type="number" class="form-control" id="maxUsers" name="maxUsers">
+                            <span id="maxUsersError" class="error-message text-danger"></span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="createCouponSubmit">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/javascripts/ADMIN/AdminCouponManagement.js"></script>
+<script>
+
+ 
+
+  //Edit And Save Alert
+  const successMessage = '<%= sucessMessage %>';
+const errorMessage = '<%= errorMessage %>'; 
+
+console.log('////////////////////////////////////////////////////////////')
+const messageBox = document.getElementById('messageBox');
+
+if (errorMessage !== '') {
+    showMessage(errorMessage, 'error');
+} else if (successMessage !== '') {
+    showMessage(successMessage, 'success');
+}
+
+function showMessage(message, messageType) {
+    messageBox.innerHTML = '';
+    const icon = document.createElement('span');
+    icon.className = 'message-icon';
+    
+    if (messageType === 'success') {
+        icon.innerHTML = '✔'; // You can use any icon you prefer
+    } else if (messageType === 'error') {
+        icon.innerHTML = '✖'; // You can use any icon you prefer
+    }
+
+    messageBox.appendChild(icon);
+    messageBox.appendChild(document.createTextNode(message));
+    messageBox.classList.add(messageType);
+    messageBox.style.display = 'block';
+
+    setTimeout(() => {
+        messageBox.style.display = 'none';
+    }, 4000); // Display the message for 4 seconds
+}
+  
+  
+</script>
+
+
+

@@ -1,0 +1,89 @@
+<style>
+    body{
+         background-color: #f0f0f0;
+    },
+    span{
+        margin-left: 13px !important;
+        font-size: 13px;
+        font-family: Arial, sans-serif;
+    }
+
+</style>
+
+<div class="container" style="margin-top: 200px;">
+    <div class="row">
+        <div class="mx-auto" style="max-width: 450px;">
+        <div id="first">
+            <div class="myform form ">
+                    <div class="logo mb-3">
+                        <div class="col-md-12 text-center">
+                        <h3>SIGN UP</h3>
+                        </div>
+                </div>
+                <form action="/vertifyOtp" method="post"  id="form" > 
+                        <div class="d-flex flex-column">
+                            <label for="phone"><span>Mobile number</span></label>
+                            <input type="text" name="phone"  class="input-1" value="{{phone}}"  id="phone"  aria-describedby="phoneHelp"readonly >
+                            <span id="phoneError"></span>
+                        </div>
+                        
+                        <div class="d-flex flex-column">
+                            <label for="otp"><span>OTP</span></label>
+                            <span id="otp"></span>
+                            <input type="text" name="otp"  class="input-1" id="otp" aria-describedby="otpHelp">
+                        </div>
+                        <span id="otp-error" class="float-left text-danger mb-0"></span>
+                        <br>
+                        <p id="otp-counter" class="float-right mb-0">&nbsp;</p>
+                        <a class="text-primary" href="/resendOtp" id="resend-btn" class="float-right" hidden>Resend OTP</a>
+                        <div class="clearfix"></div>
+                        <div class="col-md-12 text-center mt-3">
+                            <button type="submit" class=" btn-1 tx-tfm">Signup</button>
+                        </div>
+                        <div class="form-group mt-3">
+                            <span class="text-center">By signing up you accept our <a class="text-primary" href="#">Terms Of Use</a></span>
+                        </div>
+                    </form>
+
+                    {{#if message}}
+                        <span>{{message}}</span>
+                        {{/if}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 
+
+<script>
+     const form=document.getElementById('form')
+     const otpCounter=document.getElementById('otp-counter')
+     const resendbtn=document.getElementById('resend-btn')
+     const otpError=document.getElementById('otp-error')
+
+
+
+    
+   
+
+
+    let seconds=20
+    let countDownTimer
+     function startCountDown(){
+        otpCounter.innerHTML='resend otp in :20 s'
+        countDownTimer=setInterval(()=>{
+            seconds--
+            otpCounter.innerHTML="Resend OTP in: " + seconds + "s"
+            if(seconds<=0){
+                clearInterval(countDownTimer)
+                otpCounter.hidden=true
+                resendbtn.hidden=false
+            }
+        },1000)
+
+     }
+     startCountDown()
+    
+   
+</script>
+
+ verify otp.hbs

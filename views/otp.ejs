@@ -1,0 +1,123 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <style>
+        .card {
+            width: 350px;
+            padding: 10px;
+            border-radius: 20px;
+            background: #fff;
+            border: none;
+            height: 350px;
+            position: relative;
+        }
+
+        .container {
+            height: 100vh;
+        }
+
+        body {
+            background: #eee;
+        }
+
+        .mobile-text {
+            color: #989696b8;
+            font-size: 15px;
+        }
+
+        .form-control {
+            margin-right: 12px;
+        }
+
+        .form-control:focus {
+            color: #495057;
+            background-color: #fff;
+            border-color: #ff8880;
+            outline: 0;
+            box-shadow: none;
+        }
+
+        .cursor {
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<!-- <body>
+    <form action="/postotp" method="post">
+        <div class="d-flex justify-content-center align-items-center container">
+            <fdiv class="card py-5 px-3">
+                <h5 class="m-0">Mobile phone verification</h5><span class="mobile-text">Enter the code we just send on
+                    your mobile phone <b class="text-danger"></b></span>
+              <input type="text" id="otp" name="otp">
+               <button type="submit">VerifyOtp</button>
+                <div class="text-center mt-5"><span class="d-block mobile-text">Don't receive the code?</span><span
+                        class="font-weight-bold text-danger cursor">Resend</span></div>
+        </div>
+        </div>
+    </form>
+</body> -->
+<body>
+    <form action="/postotp" method="post">
+        <div class="d-flex justify-content-center align-items-center container">
+            <div class="card py-5 px-3">
+                <p class="text-danger"><%= err %></p>
+                <h5 class="m-0">Mobile phone verification</h5>
+                <span class="mobile-text">Enter the code we just sent to your mobile phone <b class="text-danger"></b></span>
+                <input type="text" id="otp" name="otp">
+                <button type="submit">Verify OTP</button>
+                <div class="text-center mt-5">
+                    <span class="d-block mobile-text">Resend the code in <span id="otp-timer" class="text-danger">60</span> seconds</span>
+                    <span class="font-weight-bold text-danger cursor" id="resend-button">Resend</span>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <script>
+        // Set the initial timer value (in seconds)
+        let timer = 60;
+
+        // Get the timer and resend button elements
+        const otpTimer = document.getElementById('otp-timer');
+        const resendButton = document.getElementById('resend-button');
+
+        // Function to update the timer display
+        function updateTimer() {
+            if (timer > 0) {
+                timer--;
+                otpTimer.textContent = timer;
+                setTimeout(updateTimer, 1000); // Update every second
+            } else {
+                // Enable the "Resend" button when the timer reaches 0
+                resendButton.classList.remove('disabled');
+            }
+        }
+
+        // Start the timer when the page loads
+        updateTimer();
+
+        // Function to handle the "Resend" button click
+        resendButton.addEventListener('click', function () {
+            // Disable the "Resend" button
+            resendButton.classList.add('disabled');
+            
+            // Reset the timer to 60 seconds and start counting down again
+            timer = 60;
+            updateTimer();
+            
+            // Add code here to resend the OTP to the user's mobile phone
+            // You may want to send a new OTP and update the message accordingly
+        });
+    </script>
+</body>
+
+</html>
