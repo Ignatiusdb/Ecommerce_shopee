@@ -38,6 +38,10 @@ const userSchema =mongoose.Schema({
         type:Number,
         default:false
     },
+    refId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "referrals",
+    },
     isBlocked:{
         type:Boolean,
         default:false

@@ -190,6 +190,19 @@ async function postVerifyOtp(req, res) {
       await user.save();
        console.log("postverify");
 
+       const newReferrer = new Referral({
+        referralId: uuidv4(),
+        referralLink: uuidv4(),
+        userId: req.session.user._id,
+    });
+    console.log('/////.............');
+    
+  
+    newReferrer.save()
+    user.refId = newReferrer._id;
+    await user.save();
+    console.log(newReferrer)
+
       // Create a new wallet for the user
    const newWallet = new Wallet({
     user:user._id,

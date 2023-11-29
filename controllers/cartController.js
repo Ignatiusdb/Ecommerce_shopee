@@ -110,14 +110,16 @@ let cartGet = async (req, res) => {
             owner: userId
         });
         console.log(cart);
+        if(cart && cart.items.length>0){
         for (const item of cart.items) {
             console.log(item.productId);
             let data = await Product.findOne({ _id: item.productId })
             console.log(data);
             item.data = data
         }
+    }
         // const cartCount = cart.items.length;
-        const cartItemCount = cart ? cart.items.length : 0;
+        const cartItemCount = cart ? cart?.items.length : 0;
         let user = (userId) ? true : false
         return res.render('cart', {
             category,
@@ -913,11 +915,11 @@ let WishlistGet = async (req, res) => {
                 select: 'name price description image countInStock',
             });
         console.log(wishlist)
-        const numberOfItemsInWishlist = wishlist.products.length;
+        const numberOfItemsInWishlist = wishlist!==null?wishlist.products?.length:null;
         const totalPages = Math.ceil(numberOfItemsInWishlist / perPage);
         const startIndex = (page - 1) * perPage;
 
-        const Products = wishlist.products.slice(startIndex, startIndex + perPage);
+        const Products = wishlist?.products?.slice(startIndex, startIndex + perPage);
 
         const paginationInfo = {
             totalPages,
@@ -998,14 +1000,22 @@ let WishlistToCart = async (req, res) => {
 
         // Create or retrieve the user's cart
         let cart = await Cart.findOne({ owner: userId });
-        const cartItem = cart.items.find((item) => item.productId.toString() === productId)
+
+        if(!cart){
+            cart = new Cart({
+                owner : userId,
+                items:[],
+                billTotal:0
+            })
+        }
+        const cartItem = cart?.items.find((item) => item.productId.toString() === productId)
 
         if (cartItem) {
             cartItem.productPrice = product.price;
             cartItem.quantity += 1;
             cartItem.price = cartItem.quantity * product.price;
         } else {
-            cart.items.push({
+            cart?.items.push({
                 productId: productId,
                 name: product.name,
                 image: product.image,
@@ -1016,7 +1026,7 @@ let WishlistToCart = async (req, res) => {
         }
 
         // Update the cart's bill total
-        cart.billTotal = cart.items.reduce((total, item) => total + item.price, 0);
+        cart.billTotal = cart?.items.reduce((total, item) => total + item.price, 0);
 
         // Save the cart
         await cart.save();
