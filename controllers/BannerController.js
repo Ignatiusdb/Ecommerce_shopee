@@ -2,13 +2,15 @@ const Admin = require('../models/adminModel');
 const Banner = require('../models/BannerModel');
 
 
-const bannersGet = async(req,res)=>{
+const bannersGet = async(req,res,next)=>{
     try{
         const banners = await Banner.find({}).sort({position:1});
       console.log(banners)
         res.render('bannerMangement',{ pagetitle:'Banners',banners })
-    }catch(error){
-        res.status(500).json({message:'Internal Server Error'})
+    }catch (error) {
+      // Pass the error to the error handling middleware
+      error.adminError = true;
+      next(error);
     }
 }
 

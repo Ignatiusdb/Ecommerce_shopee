@@ -44,6 +44,7 @@ user_route.get('/contact',userController.isBlocked,userController.contactGet)
 
 user_route.get('/otp',userController.loadOTP)
 user_route.post('/postotp',userController.postVerifyOtp)
+user_route.post('/resendOtp',userController.resendOtp)
 // user_route.post('/verifyOtp',userController.varify_OTP)
 
 //FORGOT PASSWORD 

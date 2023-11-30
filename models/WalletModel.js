@@ -9,7 +9,9 @@ const transactionSchema = new mongoose.Schema({
     type: String,
     enum: ['credit', 'debit'],
     required: true,
-  },
+  }, description:{
+    type:String
+  }
   // Add any other fields you need to track for transactions
 }, {
   timestamps: true,

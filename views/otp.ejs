@@ -108,15 +108,31 @@
         // Function to handle the "Resend" button click
         resendButton.addEventListener('click', function () {
             // Disable the "Resend" button
-            resendButton.classList.add('disabled');
+            fetch(`/resendOtp`, {
+            method: "POST",
+          })
+            .then(response =>  response.json())
+            .then((response)=>{
+              if (response.success) {
+                resendButton.classList.add('disabled');
             
             // Reset the timer to 60 seconds and start counting down again
             timer = 60;
             updateTimer();
             
-            // Add code here to resend the OTP to the user's mobile phone
-            // You may want to send a new OTP and update the message accordingly
-        });
+              } else {
+                alert(response.message)
+                console.error(response.message);
+              }
+            })
+            .catch(error => {
+              console.error(error);
+            });
+        } 
+        ); 
+            
+          
+   
     </script>
 </body>
 

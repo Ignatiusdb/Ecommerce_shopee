@@ -128,6 +128,7 @@ exports.WalletConfirmPayment = async (req, res) => {
         wallet.transactions.push({
             amount: parseFloat(amount),
             type: 'credit',
+            description:'addMoney',
             paymentId: paymentId,
         });
 

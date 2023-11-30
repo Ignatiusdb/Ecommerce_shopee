@@ -10,7 +10,7 @@ const OrderModel = require('../models/OrderModel');
 const WalletModel = require('../models/WalletModel');
 
 
-exports.OrderManagementPageGet = async (req, res) => {
+exports.OrderManagementPageGet = async (req, res,next) => {
     try {
      if(req.query.page){
             page=parseInt(req.query.page);
@@ -31,8 +31,10 @@ exports.OrderManagementPageGet = async (req, res) => {
             currentPage:page,
             totalPages
         });
-    } catch (err) {
-        console.log(err);
+    } catch (error) {
+      // Pass the error to the error handling middleware
+      error.adminError = true;
+      next(error);
     }
 }
 
@@ -213,10 +215,22 @@ exports.refundAmount = async (req, res) => {
         wallet.transactions.push({
             amount: order.billTotal,
             type: 'credit',
+            description:'refuded'
         });
 
         // Save the updated wallet
         await order.save();
+        for (const item of order.items) {
+            const product = await Product.findById(item.productId);
+
+            if (product) {
+                // Increment the product quantity by the canceled quantity
+                product.countInStock += item.quantity;
+
+                // Save the updated product
+                await product.save();
+            }
+        }
         await wallet.save();
         
 

@@ -78,15 +78,7 @@ admin_route.delete('/product-management/delete-product/:productId', productContr
 
 admin_route.put('/product-management/updateProduct/:productId', productController.productManagementPublish);
 
-//order management
 
-admin_route.get('/order-management', Order.OrderManagementPageGet);
-
-admin_route.delete('/order-management/deleteOder/:orderId', Order.OrderDelete)
-
-admin_route.get('/order-management/orderDetailedView/:orderId', Order.orderDetailedView);
-
-admin_route.post('/order-management/update-order-status/:orderId', Order.updateOrderStatus)
 
 
 

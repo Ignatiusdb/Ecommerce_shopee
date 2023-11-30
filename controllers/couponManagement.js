@@ -48,7 +48,7 @@ function validateCoupon(req, res, next) {
 
 
   
-  const couponManagementGet = async (req,res)=>{
+  const couponManagementGet = async (req,res,next)=>{
     console.log("haii");
     try{
 
@@ -83,9 +83,10 @@ function validateCoupon(req, res, next) {
         coupons
       })
       console.log("haiiiiiii");
-    }catch(error){
-      console.log(error)
-        res.status(500).json({error:error})
+    }catch (error) {
+      // Pass the error to the error handling middleware
+      error.adminError = true;
+      next(error);
     }
 }
 

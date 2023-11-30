@@ -24,10 +24,13 @@
 
           <input type="email" name="email" placeholder="Email" id="email" />
           <span id="emailMessage" class="text-danger"></span>
+
           <input type="tel" name="mobile" placeholder="Phone" id="mobile" />
           <span id="mobileMessage" class="text-danger"></span>
+
           <input type="password" name="password" placeholder="Password" id="password" />
           <span id="passwordMessage" class="text-danger"></span>
+
           <button type="submit">Sign Up</button>
         </form>
       </div>
@@ -40,8 +43,8 @@
   </div>
   <script>
     function validateForm() {
+      let verify = true;
 
-      let verify=true
       // Get all input fields
       const nameInput = document.getElementById('name');
       const emailInput = document.getElementById('email');
@@ -63,59 +66,42 @@
       // Validate the first name field
       if (nameInput.value.trim() === '') {
         nameMessage.textContent = 'Please enter your first name.';
-        verify=false
+        verify = false;
       } else if (/^\d+$/.test(nameInput.value.trim())) {
         nameMessage.textContent = 'Please enter a valid first name without numbers.';
-        verify=false
-      } else {
-        // The input is not empty and doesn't contain numbers, clear any previous error message.
-        nameMessage.textContent = '';
+        verify = false;
       }
-
-
-
 
       // Validate the email field
       if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(emailInput.value)) {
-        emailMessage.textContent = ' enter a valid email address.';
+        emailMessage.textContent = 'Enter a valid email address.';
+        verify = false;
       }
 
       // Validate the mobile field
       if (!/^\d{10}$/.test(mobileInput.value)) {
         mobileMessage.textContent = 'Enter a valid 10-digit number.';
-        verify=false
+        verify = false;
       }
 
-      let flag = 0
-      console.log(mobileInput.value[0])
-      for(let i=0;i<10;i++){
-        if(mobileInput.value[0]===mobileInput.value[i]){
-          flag = 0
-        } else {
-          flag = 1
-        }
-      }
-
-      if(flag===0){
-        mobileMessage.textContent = "Invalid mobile number "
-        // return false
-        verify=false
-      } else { 
-        return true
-      }
+      // Check if the first digit of the mobile number is valid
+      // Validate the mobile field
+if (!/^\d{10}$/.test(mobileInput.value)) {
+  mobileMessage.textContent = 'Enter a valid 10-digit number.';
+  verify = false;
+} else if (/^(\d)\1{9}$/.test(mobileInput.value)) {
+  mobileMessage.textContent = 'Invalid mobile number (all digits are the same).';
+  verify = false;
+}
 
       // Validate the password field
       if (passwordInput.value.length < 3) {
-        passwordMessage.textContent = 'Enter a password 3 characters.';
+        passwordMessage.textContent = 'Enter a password with at least 3 characters.';
+        verify = false;
       }
 
-      // If all fields are valid, return true
-      if (nameMessage.textContent === '' && emailMessage.textContent === '' && mobileMessage.textContent === '' && passwordMessage.textContent === '') {
-        return true;
-      }
-
-      // Otherwise, return false
-     return verify
+      // Return the overall verification result
+      return verify;
     }
   </script>
 

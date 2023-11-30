@@ -4,7 +4,7 @@ const Product = require('../models/productModel')
 const User = require('../models/userModel')
 const Category = require('../models/categoryModel')
 
-const productManagementGet = async (req, res) => {
+const productManagementGet = async (req, res,next) => {
     try {
         let query = {};
 
@@ -22,19 +22,21 @@ const productManagementGet = async (req, res) => {
         
         res.render('page-products-list', { products, categories,selectedCategory, pagetitle: 'Products' });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: error.message || 'Internal Server Error' });
+        // Pass the error to the error handling middleware
+        error.adminError = true;
+        next(error);
     }
 };
 
-const productCategories = async (req, res) => {
+const productCategories = async (req, res,next) => {
     
     try {
         const categories = await Category.find({}, 'name'); // Only fetch category names
         res.status(200).json(categories);
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Internal Server Error' });
+        // Pass the error to the error handling middleware
+        error.adminError = true;
+        next(error);
     }
 }
 

@@ -142,7 +142,7 @@ async function postRegister(req, res) {
       },
 
     });
-
+console.log(user.otp.code);
     // Save the new user to the database
     await user.save();
 
@@ -159,6 +159,44 @@ async function postRegister(req, res) {
   }
 }
 
+const resendOtp = async (req, res) => {
+  try {
+    if (req.session && req.session.user) {
+      const userEmail = req.session.user.email;
+      console.log(userEmail);
+
+      // Find the user by email
+      let user = await User.findOne({ email: userEmail });
+
+      // If user not found, handle accordingly
+      if (!user) {
+        return res.status(300).json({success:false, message: 'User not found' });
+      }
+
+      // Calculate the expiration time
+      const expirationTime = new Date();
+      expirationTime.setMinutes(expirationTime.getMinutes() + 5);
+
+      // Send the OTP email
+      const result = await sendOtpVerificationEmail(userEmail);
+
+      // Update the user in the database with the new OTP and expiration time
+      user.otp = {
+        code: result.data.otp,
+        expiresAt: expirationTime,
+      };
+
+      await user.save();
+
+      res.status(200).json({ success: true, message: 'OTP resent successfully' });
+    } else {
+      res.status(404).json({ success: false, message: 'Sorry, please add sign details again' });
+    }
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+}
+
 
    
 async function postVerifyOtp(req, res) {
@@ -170,7 +208,7 @@ async function postVerifyOtp(req, res) {
 
     // Find the user by email
     const user = await User.findOne({ email });
-    console.log(user);
+  
     if (!user) {
       req.flash("error", "User not found");
       return res.redirect("/otp");
@@ -188,14 +226,14 @@ async function postVerifyOtp(req, res) {
       
       user.is_verified = true;
       await user.save();
-       console.log("postverify");
+       
 
        const newReferrer = new Referral({
         referralId: uuidv4(),
         referralLink: uuidv4(),
         userId: req.session.user._id,
     });
-    console.log('/////.............');
+   
     
   
     newReferrer.save()
@@ -381,7 +419,7 @@ const loginLoad = async (req, res) => {
   }
 }
 
-const loadHome = async (req, res) => {
+const loadHome = async (req, res,next) => {
   try {
     // Fetch products from your database
     const products = await Product.find().sort({_id:-1}).populate('category', 'name'); //  // You can customize this query as needed
@@ -398,7 +436,7 @@ const loadHome = async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Internal Server Error' });
+    next(error)
   }
 }
 
@@ -579,7 +617,7 @@ const resetPasswordPost = async(req,res) => {
 }
 
 
-const shopUser = async (req, res) => {
+const shopUser = async (req, res,) => {
   try {
       let search = '';
       let query = {};
@@ -1574,7 +1612,7 @@ module.exports = {
   loadHome,
   logout,
   loadOTP,
-
+  resendOtp,
   forgotPassword ,
   forgotPasswordPost,
   resetPasswordGET,

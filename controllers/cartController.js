@@ -272,7 +272,7 @@ let cartbillTotalUpdate = async (req, res) => {
     }
 }
 
-let checkoutGet = async (req, res) => {
+let checkoutGet = async (req, res,next) => {
     try {
 
       let Adreessmessage;
@@ -386,7 +386,7 @@ let checkoutGet = async (req, res) => {
         }
     } catch (err) {
         console.log(err);
-        // next(err);
+        next(err);
     }
 }
 
@@ -1037,7 +1037,7 @@ let WishlistToCart = async (req, res) => {
             { $pull: { products: productId } }
         );
 
-        return res.status(200).json({ message: 'Product moved from wishlist to cart successfully' });
+        return res.status(200).json({success:true, message: 'Product moved from wishlist to cart successfully' });
     } catch (err) {
         console.log(err);
         return res.status(500).json({ message: 'Internal Server Error' });

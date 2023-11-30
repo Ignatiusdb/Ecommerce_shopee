@@ -4,7 +4,7 @@ const products = require('../models/productModel')
 const multer = require('multer');
 const Product = require('../models/productModel');
 
-const categoryManagementGet = async (req, res) => {
+const categoryManagementGet = async (req, res,next) => {
 
   try {
 
@@ -16,8 +16,9 @@ const categoryManagementGet = async (req, res) => {
       categories: categories, // Pass the categories to the view
     });
   } catch (error) {
-    console.error('Error fetching categories:', error);
-    res.status(500).send('Internal Server Error');
+    // Pass the error to the error handling middleware
+    error.adminError = true;
+    next(error);
   }
 }
 

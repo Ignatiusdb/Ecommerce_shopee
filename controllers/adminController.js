@@ -86,7 +86,7 @@ const verifyLogin = async (req, res) => {
     }
 }
 
-const loadDashboard = async (req, res) => {
+const loadDashboard = async (req, res,next) => {
     try {
         let orders = await OrderModel.find().sort({ createdAt: -1 }).limit(10).populate('user', 'name')
         let daily = await salesData(0)
@@ -96,7 +96,9 @@ const loadDashboard = async (req, res) => {
         let userData = await Admin.findById({ _id: req.session.isAdmin._id })
         res.render('dashboard', { admin: userData,daily,weekly,monthly,yearly,orders })
     } catch (error) {
-        console.log(error.message);
+        // Pass the error to the error handling middleware
+        error.adminError = true;
+        next(error);
     }
 }
 
@@ -187,19 +189,23 @@ const logout = async (req, res) => {
     }
 }
 
-const adminDashboard = async (req, res) => {
+const adminDashboard = async (req, res,next) => {
     try {
         res.render('dashboard')
     } catch (error) {
-        console.log(error.message);
+        // Pass the error to the error handling middleware
+        error.adminError = true;
+        next(error);
     }
 }
-const usersList = async (req, res) => {
+const usersList = async (req, res,next) => {
     try {
         const userData = await User.find()
         res.render('users', { userData, pagetitle: "Users" })
     } catch (error) {
-        console.log(error.message);
+        // Pass the error to the error handling middleware
+        error.adminError = true;
+        next(error);
     }
 }
 

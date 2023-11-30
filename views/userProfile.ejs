@@ -865,29 +865,31 @@
                                             </div>
                             
                                             <div class="txn-history">
-                                                <p><b>History</b></p>
-                                                <% if (userDetails && userDetails.WalletDetails && userDetails.WalletDetails[0].transactions) { %>
-                                                    <% userDetails.WalletDetails[0].transactions.slice().reverse().forEach((transaction, index) => { %>
-                                                        <% if (index < 5) { %>
-                                                            <p class="txn-list">
-                                                                <% if (transaction.type === 'debit') { %>
-                                                                    Paid  <span class="debit-amount">-₹<%= Math.abs(transaction.amount) %></span>
-                                                                <% } else if (transaction.type === 'credit') { %>
-                                                                    Credited  <span class="credit-amount">+₹<%= transaction.amount %></span>
-                                                                <% } %>
-                                                            </p>
+                                                        <p><b>History</b></p>
+                                                        <% userDetails.WalletDetails[0].transactions.slice().reverse().forEach((transaction,index)=>{  %>
+                                                            <% if(index<5){ %>
+                                                                <p class="txn-list">
+                                                                    <% if (transaction.type === 'debit') { %>
+                                                                      Debited <span class="debit-amount">-₹<%= Math.abs(transaction.amount) %></span>
+                                                                      <% if (transaction.description) { %>
+                                                                        <span class="debit-description">- <%= transaction.description %></span>
+                                                                      <% } %>
+                                                                    <% } else if (transaction.type === 'credit') { %>
+                                                                      Credited <span class="credit-amount">+₹<%= transaction.amount %></span>
+                                                                      <% if (transaction.description) { %>
+                                                                        <span class="credit-description">+ <%= transaction.description %></span>
+                                                                      <% } %>
+                                                                    <% } %>
+                                                                  </p>
+                                                                  
                                                         <% } %>
-                                                    <% }) %>
-                                                <% } else { %>
-                                                    <p>No transaction history</p>
-
-                                                <% } %>
-                                                <% } else { %>
-                                                    <p>No wallet details available.</p>
-                                                <% } %>
-                                            </div>
-                            
-                                            <div class="footer-menu"></div>
+                                                            <% }) %>
+                                                    </div>
+                                                    <% } else { %>
+                                                      <p>No wallet details available.</p>
+                                                    <% } %>
+                                                    <div class="footer-menu"></div>
+                                        
                                         </div>
                                     </div>
                                 </div>

@@ -460,40 +460,43 @@
           </section>
     </main>
     <script>
-        function addtoCart(itemId){
-             alert('Product Moved to cart')
-            fetch('/home/cart/addToCart/'+itemId,{
-                method:'POST',
-                headers:{
-                    'Content-Type': 'application/json',
-                },
-                
-            })
-            .then((response) =>  response.json())
-            .then(data=>{
-                const toast = document.querySelector('.toast');
-      const toastBody = toast.querySelector('.toast-body');
-      const toastHeader = toast.querySelector('.toast-header');
+    function addtoCart(itemId) {
+  // Use SweetAlert to show a success message
 
+
+  fetch('/home/cart/addToCart/' + itemId, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => {
       if (data.success) {
-        toastHeader.innerHTML = 'Success';
-        toastBody.innerHTML = 'Item added to the cart successfully.';
-        toast.classList.remove('bg-danger');
-        toast.classList.add('bg-success');
+        Swal.fire({
+    icon: 'success',
+    title: 'Success',
+    text: 'Product moved to cart successfully',
+    showConfirmButton: false,
+    timer: 2000,
+  });
       } else {
-        toastHeader.innerHTML = 'Error';
-        toastBody.innerHTML = 'Failed to add item to the cart.';
-        toast.classList.remove('bg-success');
-        toast.classList.add('bg-danger');
       }
+// Use Bootstrap's toast method to show the toast
+    })
+    .catch((err) => {
+      // Handle the error here
+      console.error(err);
 
-      $(toast).toast('show'); // Use Bootstrap's toast method to show the toast
+      // Use SweetAlert to show an error message
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'An error occurred',
+      });
+    });
+}
 
-            })
-            .catch((err)=>{
-                
-            })
-   }
     //wishlist
 
     document.querySelectorAll('.wishlist-button').forEach(button => {

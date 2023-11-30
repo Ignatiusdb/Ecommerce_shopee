@@ -1,5 +1,24 @@
-const mongoose = require('mongoose')
-module.exports = mongoose.connect('mongodb://127.0.0.1:27017/projectNew')
+const mongoose = require('mongoose');
+const errorHandler = require('./middleware/errorHandler');
+require('dotenv').config();
+
+const mongoURI = process.env.MONGOURI;
+const options = {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+};
+
+mongoose.connect(mongoURI, options)
+  .then(() => {
+    console.log('Connected to MongoDB');
+  })
+  .catch((error) => {
+    console.error('Error connecting to MongoDB:', error.message);
+  });
+
+
+  
+ 
 const bodyParser = require("body-parser")
 const express = require('express')
 const app = express()
@@ -7,11 +26,10 @@ const session = require('express-session')
 const Swal = require('sweetalert2');
 const nocache = require('nocache')
 app.use(nocache())
-require('dotenv').config();
 
 
 
-
+// mongodb+srv://Ignatius_DB:ignatiusdb@28@cluster0.khenlbq.mongodb.net/
 
 
 const path = require('path');
@@ -45,6 +63,7 @@ app.use('*',(req,res,next)=>{
   res.render('Error')
 })
 
+app.use(errorHandler);
 
 app.listen(4010, function () {
   console.log("server is running");

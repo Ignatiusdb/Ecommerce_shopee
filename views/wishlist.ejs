@@ -270,7 +270,7 @@
                       // Display a success message
                       displaySuccessMessage('Product removed from wishlist successfully');
                       // Optionally, remove the product from the HTML as well
-                      button.closest('li').remove();
+                     
                     } else {
                       // Handle any other error or message here
                       // You can display an error message in a similar way
@@ -282,30 +282,45 @@
                   });
                 }
 
-                function addtoCart(productId){
-                alert(productId)
-                // Make an AJAX request to move the product from the wishlist to the cart
-                fetch(`/wishlist/moveToCart/${productId}`, {
-                  method: 'POST',
-                })
-                  .then((response) => response.json())
-                  .then((data) => {
-                    alert(data,message)
-                    if (data.message === 'Product moved from wishlist to cart successfully') {
-                      // Display a success message
-                      displaySuccessMessage('Product moved to cart successfully');
-                      // Optionally, remove the product from the HTML wishlist
-                      button.closest('li').remove();
-                    } else {
-                      // Handle any other error or message here
-                      // You can display an error message in a similar way
-                    }
-                  })
-                  .catch((error) => {
-                    console.error(error);
-                    // Handle the error here
-                  });
-                }
+                function addtoCart(productId) {
+  fetch(`/wishlist/moveToCart/${productId}`, {
+    method: 'POST',
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.success) {
+        // Display a success message using SweetAlert
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: 'Product moved to cart successfully',
+         
+        });
+
+        // Optionally, remove the product from the HTML wishlist
+        
+      } else {
+        // Handle any other error or message here
+        // You can display an error message using SweetAlert
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: data.message,
+        });
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      // Handle the error here
+      // You can display an error message using SweetAlert
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'An error occurred',
+      });
+    });
+}
+
            
 </script>
 

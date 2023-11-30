@@ -795,7 +795,7 @@
             state: $('#state').val(),
             country: $('#country').val()
         };
-        alert(addressData)
+       
         console.log(addressData)
         console.log('llllllllllllllllllllllllllllllll');
         fetch('/profile/addAddress', {
@@ -819,10 +819,11 @@
                     window.location.reload();
                 } else {
                     Swal.fire({
-                        icon: 'warning',
-                        title: 'Warning',
+                        icon: 'success',
+                        title: 'Success',
                         text: data.message,
                     });
+                    window.location.reload();
                 }
             })
             .catch(function (error) {
@@ -995,10 +996,11 @@ proceedButton.addEventListener("click", () => {
         if (result.success) {
       
       console.log("Payment Option:", paymentOption); // Debugging line
-
+console.log(result);
       if(paymentOption === 'cashOnDelivery' || paymentOption === 'Wallet'){
+      
         Swal.fire("Success", "Cash on Delivery payment processed.", "success");
-        location.href = `/home/cart/order-confirmation/${result.order.orderId}`;
+        location.href = `/home/cart/order-confirmation/${result.orderId}`;
       } else if (paymentOption === 'Razorpay') {
         console.log("Razorpay Payment Option"); // Debugging line
         initiateRazorpayPayment(result.order.orderId, result.amount, result);
