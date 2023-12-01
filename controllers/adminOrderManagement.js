@@ -251,20 +251,44 @@ function getDate(date, fullDay) {
 }
 
 exports.salesData = async (firstDate) => {
+    console.log("llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllfffffffffllllllllllllllll")
+    console.log(firstDate)
     let date = getDate(0, false)
-    const startdate = getDate(firstDate, false)
-    let orders = []
+    console.log(date)
+    let startdate = getDate(firstDate, false)
+    console.log(startdate)
+    let orders 
     if (firstDate != -1) {
+        console.log('qqqqqqqqqqqqqqqqqqqqqqqqqqqqqq')
         orders = await OrderModel.find({
             status: 'Delivered',
-            orderDate: {
-                $gte:startdate,
-                $lt:date,
-            }
-        })
+            // orderDate: {
+            //     $gte: new Date(startdate),
+            //     $lt: new Date(date),
+            // }
+        });
+        
+        
+
     } else if (firstDate === -1) {
-        orders = await OrderModel.find({status:'Delivered',orderDate:startdate})
+        console.log('qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy');
+        // Assuming you want to query all orders from the beginning until now
+        startdate = getDate(-30, false);
+        date = getDate(0, false);
+        console.log(startdate,date+"ssssssssssssssssssssssssssss")
+    
+        orders = await OrderModel.find({
+            status: 'Delivered',
+            // orderDate: {
+            //     $gte: startdate,
+            //     $lte: date,
+            // }
+        });
     }
+    
+
+
+
     console.log(orders);
     let totalRevenue = 0
     orders.forEach((item) => {

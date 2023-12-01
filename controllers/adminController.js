@@ -103,14 +103,18 @@ const loadDashboard = async (req, res,next) => {
 }
 
 const downloadPdf= async (req, res) => {
+
     try {
       // Obtain the sales data for the desired period (e.g., daily)
       
       let salesDatas = null // Change the parameter based on the desired period
-     
+    
       if(req.query.type === 'daily') {
+        console.log("jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj")
         salesDatas = await salesData(-1)
+        console.log(salesDatas)
       } else if (req.query.type === 'weekly') {
+
         salesDatas = await salesData(-7)
     }else if (req.query.type === 'monthly') {
         salesDatas = await salesData(-30)
@@ -180,7 +184,7 @@ const downloadPdf= async (req, res) => {
 };
 
 const logout = async (req, res) => {
-    try {
+    try {   
         req.session.destroy()
         res.redirect('/admin')
 
