@@ -413,7 +413,7 @@
                 <th>Discount Percentage</th>
                <th>Maximum DiscountAmount</th>
                 <th>Minimum Amount</th>
-                
+                <th>Maximum amount</th>
                 <th>Status</th>
                 <th>View </th>
                 <th col-2>Actions</th>
@@ -432,6 +432,7 @@
                 <td class="text-center mt-2"><%= item.discountPercentage  %> %</td>
                 <td class="text-center mt-2"><%= item.maxDiscountAmount  %> </td>
                 <td class="text-center mt-2"><%= item.minimumAmount  %></td>
+                <td class="text-center mt-2"><%= item.maximumAmount  %></td>
                 
                
               
@@ -741,7 +742,15 @@
                             <span id="minimumAmountError" class="error-message text-danger"></span>
                         </div>
                     </div>
-                    
+                    <div class="form-row d-flex mb-3">
+                        <div class="form-group col-md-6">
+                            <label for="maximumAmount" class="text-right">Maximum Amount</label>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <input type="number" class="form-control" id="maximumAmount" name="maximumAmount" required>
+                            <span id="maximumAmountError" class="error-message text-danger"></span>
+                        </div>
+                    </div>
                    
                     
                     <div class="form-row d-flex mb-3">
