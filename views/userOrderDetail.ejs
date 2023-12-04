@@ -3,26 +3,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
 
 <style>
-   .returned-step .step-title {
-    color: red;
-}
-.canceled-order {
-  width: 100%;
-  padding: 20px;
-  background-color: #f8d7da;
-  color: #721c24;
-  border: 1px solid #f5c6cb;
-  border-radius: 4px;
-  text-align: center;
-}
-.canceled-order .step-icon {
-  font-size: 24px;
-  margin-bottom: 10px;
-}
-.canceled-order .step-title {
-  font-size: 18px;
-  font-weight: bold;
-}
+  
     
 .steps .step {
     display: block;
@@ -189,83 +170,52 @@
               <div class="d-flex flex-wrap flex-sm-nowrap justify-content-between py-3 px-2 bg-secondary">
                 <div class="w-100 text-center py-1 px-2"><span class="text-medium">Shipped Via:</span> UPS Ground</div>
                 <div class="w-100 text-center py-1 px-2"><span class="text-medium">Status:</span> Checking Quality</div>
-                <%
-                // Assuming order.orderDate is a Date object
-                const originalDate = order.orderDate;
-                const fiveDaysLater = new Date(originalDate);
-                fiveDaysLater.setDate(originalDate.getDate() + 5);
-              %>
-
-              
-
-                <div class="w-100 text-center py-1 px-2"><span class="text-medium">Expected Date:</span> <%= fiveDaysLater.toLocaleDateString() %></div>
+                <div class="w-100 text-center py-1 px-2"><span class="text-medium">Expected Date:</span> SEP 09, 2017</div>
               </div>
               <div class="card-body">
-                <% if (order.status === 'Canceled') { %>
-                  
-                    <div class="step completed active canceled-order padding-top-2x padding-bottom-1x">
-                        <div class="step-icon-wrap">
-                            <div class="step-icon">
-                                <i class="pe-7s-close-circle"></i>
-                            </div>
-                        </div>
-                        <h4 class="step-title">Order Canceled</h4>
-                    </div>
-                
-                    <% } else { %>
-                      <div class="steps d-flex flex-wrap flex-sm-nowrap justify-content-between padding-top-2x padding-bottom-1x"><div class="step <%= ['Pending', 'Processing', 'Shipped', 'Delivered', 'Returned'].indexOf(order.status) >= 0 ? 'completed' : '' %> <%= order.status === 'Pending' ? 'active' : '' %>">
-                        <!-- Pending Order content -->
-                        <div class="step-icon-wrap">
-                            <div class="step-icon">
-                                <i class="<%= order.status === 'Pending' ? 'pe-7s-cart' : 'pe-7s-check' %>"></i>
-                            </div>
-                        </div>
-                        <h4 class="step-title">Pending Order</h4>
-                    </div>
-                    
-                    <div class="step <%= ['Processing', 'Shipped', 'Delivered', 'Returned'].indexOf(order.status) >= 0 ? 'completed' : '' %> <%= order.status === 'Processing' ? 'active' : '' %>">
-                        <!-- Processing Order content -->
-                        <div class="step-icon-wrap">
-                            <div class="step-icon">
-                                <i class="<%= order.status === 'Processing' ? 'pe-7s-config' : 'pe-7s-check' %>"></i>
-                            </div>
-                        </div>
-                        <h4 class="step-title">Processing Order</h4>
-                    </div>
-                    
-                    <div class="step <%= ['Shipped', 'Delivered', 'Returned'].indexOf(order.status) >= 0 ? 'completed' : '' %> <%= order.status === 'Shipped' ? 'active' : '' %>">
-                        <!-- Shipped Order content -->
-                        <div class="step-icon-wrap">
-                            <div class="step-icon">
-                                <i class="<%= order.status === 'Shipped' ? 'pe-7s-medal' : 'pe-7s-check' %>"></i>
-                            </div>
-                        </div>
-                        <h4 class="step-title">Shipped Order</h4>
-                    </div>
-                    
-                    <div class="step <%= ['Delivered', 'Returned'].indexOf(order.status) >= 0 ? 'completed' : '' %> <%= order.status === 'Delivered' ? 'active' : '' %>">
-                        <!-- Product Delivered content -->
-                        <div class="step-icon-wrap">
-                            <div class="step-icon">
-                                <i class="<%= order.status === 'Delivered' ? 'pe-7s-car' : 'pe-7s-check' %>"></i>
-                            </div>
-                        </div>
-                        <h4 class="step-title">Product Delivered</h4>
-                    </div>
-                    
-                    <div class="step <%= order.status === 'Returned' ? 'completed active returned-step' : ''%>">
-                      <!-- Product Returned content -->
-                      <div class="step-icon-wrap">
-                          <div class="step-icon">
-                              <i class="<%= order.status === 'Returned' ? 'pe-7s-refresh' : 'pe-7s-check' %>"></i>
-                          </div>
+                <div class="steps d-flex flex-wrap flex-sm-nowrap justify-content-between padding-top-2x padding-bottom-1x">
+                  <div class="step <%= order.status === 'Pending' ? 'completed' : '' %> <%= order.status === 'Pending' ? 'confirmed' : '' %>">
+                    <div class="step-icon-wrap">
+                      <div class="step-icon">
+                        <i class="<%= order.status === 'Pending' ? 'pe-7s-cart' : 'pe-7s-check' %>"></i>
                       </div>
-                      <h4 class="step-title" style="color: red;">Product Returned</h4>
-                  </div>
-                  
                     </div>
-                    <% } %>
+                    <h4 class="step-title">Pending Order</h4>
                   </div>
+                  <div class="step <%= order.status === 'Processing' ? 'completed' : '' %> <%= order.status === 'Processing' ? 'processing' : '' %>">
+                    <div class="step-icon-wrap">
+                      <div class="step-icon">
+                        <i class="<%= order.status === 'Processing' ? 'pe-7s-config' : 'pe-7s-check' %>"></i>
+                      </div>
+                    </div>
+                    <h4 class="step-title">Processing Order</h4>
+                  </div>
+                  <div class="step <%= order.status === 'Shipped' ? 'completed' : '' %> <%= order.status === 'Shipped' ? 'quality-check' : '' %>">
+                    <div class="step-icon-wrap">
+                      <div class="step-icon">
+                        <i class="<%= order.status === 'Shipped' ? 'pe-7s-medal' : 'pe-7s-check' %>"></i>
+                      </div>
+                    </div>
+                    <h4 class="step-title">Shipped Order</h4>
+                  </div>
+                  <div class="step <%= order.status === 'Delivered' ? 'completed' : '' %> <%= order.status === 'Delivered' ? 'product-dispatched' : '' %>">
+                    <div class="step-icon-wrap">
+                      <div class="step-icon">
+                        <i class="<%= order.status === 'Delivered' ? 'pe-7s-car' : 'pe-7s-check' %>"></i>
+                      </div>
+                    </div>
+                    <h4 class="step-title">Product Delivered</h4>
+                  </div>
+                  <div class="step <%= order.status === 'Canceled' ? 'completed' : '' %> <%= order.status === 'Canceled' ? 'product-delivered' : '' %>">
+                    <div class="step-icon-wrap">
+                      <div class="step-icon">
+                        <i class="<%= order.status === 'Canceled' ? 'pe-7s-home' : 'pe-7s-check' %>"></i>
+                      </div>
+                    </div>
+                    <h4 class="step-title">Product Canceled</h4>
+                  </div>
+                </div>
+              </div>
               
               
             </div>
@@ -353,7 +303,7 @@
                       </tr>
                        <tr>
                         <td colspan="2">Discount (Code: NEWYEAR)</td>
-                        <td class="text-danger text-end">-10.00</td>
+                        <td class="text-danger text-end">-$10.00</td>
                       </tr> 
                       <tr class="fw-bold">
                         <td colspan="2">TOTAL</td>
