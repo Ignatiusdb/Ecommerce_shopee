@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>F-STORE</title>
+    <title>Shopee</title>
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -119,7 +119,9 @@
 
 <body>
     <!-- Quick view -->
-
+    <div id="loading-screen">
+        <div id="loader"></div>
+      </div>
     <header class="header-area header-style-3 header-height-2">
         <div class="header-top header-top-ptb-1 d-none d-lg-block">
             <div class="container">
@@ -166,25 +168,7 @@
                 </div>
             </div>
         </div>
-        <div class="header-bottom header-bottom-bg-color sticky-bar">
-            <div class="container">
-                <div class="header-wrap header-space-between position-relative  main-nav">
-                    <div class="logo logo-width-1 d-block d-lg-none">
-                        <a href="/"><img src="\stylesheets\assets\imgs\brands\brand-20.jpg" alt="logo"></a>
-                    </div>
-                    <div class="header-nav d-none d-lg-flex">
-                        
-                        <div class="main-menu main-menu-padding-1 main-menu-lh-2 d-none d-lg-block">
-                          
-                        </div>
-                    </div>
-                   
-                    <div class="header-action-right d-block d-lg-none">
-                    
-                    </div>
-                </div>
-            </div>
-        </div>
+     
     </header>
    
     <main class="main">
@@ -236,7 +220,7 @@
                                                                     </button>
                                                                     </div>
                                                                     <div class="modal-body">
-                                                                        <form id="addressForm" class="address-form" action="/profile/editAddress" method="post" >
+                                                                        <form  class="address-form" action="/profile/editAddress" method="post" >
                                                                             <!-- Form fields for address details -->
                                                                             <div class="form-group mb-3">
                                                                                 <label for="addressType">Address Type</label>
@@ -452,7 +436,11 @@
                                 class="rounded-3" style="width: 100px;" alt="<%= item.name %>" />
                             </div>
                             <div class="col-md-6 ms-3">
-                              <span class="mb-0 text-price">INR <%= item.productPrice.toFixed(2) %></span>
+                                <span>INR  <% if(discountPrice &&  discountedTotal){ %>
+                                    <%= discountedTotal %>
+                                    <% }else{ %>
+                                        <%= billTotal %>
+                                        <% } %> </span>
                               <p class="mb-0 text-descriptions"><%= item.name %> </p>
                               <span class="text-descriptions fw-bold">Black</span> <span
                                 class="text-descriptions fw-bold">UK 8</span>
@@ -706,14 +694,6 @@
 
 
 <script>
-    // $(document).ready(function () {
-    // // Function to validate the form
-    // document.getElementById('saveAddress').addEventListener('click', function () {
-    //     // Validate and save the address
-    //     if (validateForm()) {
-    //         saveAddress();
-    //     }
-    // });
     $(document).ready(function () {
         const form2 = document.getElementById('addressForm')
     // Function to validate the form
@@ -725,7 +705,6 @@
         }
     });
 
-    
     function validateForm() {
         var valid = true;
         var addressType = $('#addressType').val();
@@ -800,6 +779,9 @@
             state: $('#state').val(),
             country: $('#country').val()
         };
+       
+        console.log(addressData)
+        console.log('llllllllllllllllllllllllllllllll');
         fetch('/profile/addAddress', {
             method: 'POST',
             body: JSON.stringify(addressData),
@@ -817,14 +799,15 @@
                         title: 'Success',
                         text: 'Address Saved Successfully',
                     });
-                    $('#addressModal').modal('hide');
+                    $('#').modal('hide');
                     window.location.reload();
                 } else {
                     Swal.fire({
-                        icon: 'warning',
-                        title: 'Warning',
+                        icon: 'success',
+                        title: 'Success',
                         text: data.message,
                     });
+                    window.location.reload();
                 }
             })
             .catch(function (error) {
@@ -997,10 +980,11 @@ proceedButton.addEventListener("click", () => {
         if (result.success) {
       
       console.log("Payment Option:", paymentOption); // Debugging line
-
+console.log(result);
       if(paymentOption === 'cashOnDelivery' || paymentOption === 'Wallet'){
+      
         Swal.fire("Success", "Cash on Delivery payment processed.", "success");
-        location.href = `/home/cart/order-confirmation/${result.order.orderId}`;
+        location.href = `/home/cart/order-confirmation/${result.orderId}`;
       } else if (paymentOption === 'Razorpay') {
         console.log("Razorpay Payment Option"); // Debugging line
         initiateRazorpayPayment(result.order.orderId, result.amount, result);
