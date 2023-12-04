@@ -21,6 +21,7 @@ const Referral = require('../models/ReferralModel')
 const ejs = require('ejs')
 const path= require('path')
 const puppeteer = require('puppeteer');
+const easyinvoice = require('easyinvoice')
 const Wishlist = require('../models/wishlistModel')
 const { trans } = require('../config/otpGenerator')
 
@@ -1203,40 +1204,76 @@ const cancelOrder = async (req, res) => {
 
 
 
-const usergetOrderInvoice = async (req, res) => {
+const usergetOrderInvoice = async (req, res,next) => {
   try {
-    const userId = req.session.user_id;
-    console.log("HELLEOOE")
-      // Fetch order details from your database using the orderId
-      const order = await OrderModel.findById(req.params.orderId).populate('user', 'firstName lastName email');
-  
-      ejs.renderFile(path.join(__dirname, '..', 'views', 'invoice.ejs'), { order }, (err, htmlContent) => {
-        if (err) {
-          console.error(err);
-          return res.status(500).send('Error rendering the PDF');
-        }
-    
-        (async () => {
-          const browser = await puppeteer.launch();
-          const page = await browser.newPage();
-          await page.setContent(htmlContent);
-    
-          const pdfPath = path.join(__dirname,'..', 'public', `${userId}_order.pdf`);
-          // await page.pdf({ path: pdfPath, format: 'A4', printBackground: true, width: '210mm', height: '297mm', margin: { top: '10mm', right: '10mm', bottom: '10mm', left: '10mm' }, scale: 0.5 });
+    // if (req.query.from === '$2b$10$gviVtGpDfqpsAsCkbx8xaukeIQDirbAk2vIJ0IhJROGzYHeHUERp2') {
 
-          await page.pdf({ path: pdfPath, format: 'A4' });
-    
-          await browser.close();
-    
-          res.setHeader('Content-Disposition', `attachment; filename=${userId}_order.pdf`);
-          res.setHeader('Content-Type', 'application/pdf');
-          res.sendFile(pdfPath);
-        })();
-      });
-  } catch (err) {
-      console.error(err);
-      res.status(500).send('Failed to generate the invoice.');
+    const order = await OrderModel.findById(req.params.orderId).populate('user', 'firstName lastName email');
+  
+
+    console.log("innn")
+    console.log(order, order ?.items);
+    let products = order.items.map((item, index) => {
+      return {
+        "quantity": item.quantity,
+        "price": item.productPrice,
+        "tax-rate": 0.0,
+        "description": item.name,
+      }
+    });
+
+
+    var data = {
+      "customize": {},
+      "images": {
+        "logo": "https://public.easyinvoice.cloud/img/logo_en_original.png",
+        // "background": "https://public.easyinvoice.cloud/img/watermark-draft.jpg"
+      },
+      "sender": {
+        "company": "Fstore",
+        "address": "Fstore Website",
+        "zip": "680502",
+        "city": "Thrissur",
+        "country": "INDIA"
+      },
+      "client": {
+        "company":  order.user.firstName+' '+order.user.lastName || "N/A",
+        "address": order.deliveryAddress.HouseNo +' '+ order.deliveryAddress.Street +' '+ order.deliveryAddress.city  ,
+        "city": order.deliveryAddress.city,
+        "zip": "PIN :" + order.deliveryAddress.pincode,
+       
+        "country": order.deliveryAddress.Country,
+      },
+      "information": {
+       
+        "date": order.orderDate,
+        "due-date": "PAID"
+      },
+      "products": products,
+      "bottom-notice": "Thank you for supporting us, Inloop Watches",
+      "settings": {
+        "currency": "INR",
+      },
+      "translate": {},
+    };
+    easyinvoice.createInvoice(data, function (result) {
+      const base64Data = result.pdf;
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', 'attachment; filename="INVOICE_' + Date.now() + '_.pdf"');
+      const binaryData = Buffer.from(base64Data, 'base64');
+      res.send(binaryData);
+    });
+    // } 
+    // else {
+    //     res.redirect('/profile')
+    // }
+
+  }  catch(error){
+    console.error(error);
+    console.log(error);
+    next(error);
   }
+
 }
 
 const orderDetails = async (req, res) => {
