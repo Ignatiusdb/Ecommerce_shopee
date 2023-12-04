@@ -1,5 +1,5 @@
 const User= require('../models/userModel')
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 const { name, render } = require('ejs')
 const { ObjectId } = require('mongodb')
 const nodemailer = require('nodemailer')

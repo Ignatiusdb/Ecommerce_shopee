@@ -1,6 +1,6 @@
 const  Admin  = require('../models/adminModel')
 const User = require('../models/userModel')
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const {storage , upload} = require('../config/multerConfig');
 let { salesData } = require('./adminOrderManagement');
 const OrderModel = require('../models/OrderModel');

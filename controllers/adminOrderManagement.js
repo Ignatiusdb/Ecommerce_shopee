@@ -4,7 +4,7 @@ const Category = require('../models/categoryModel');
 const Banner = require('../models/BannerModel')
 
 const mongoose = require('mongoose')
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const AddressModel = require('../models/addressModel');
 const OrderModel = require('../models/OrderModel');
 const WalletModel = require('../models/WalletModel');
